@@ -1,23 +1,116 @@
----
-layout: default
----
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="#">Ryan Au</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Home</a></li>
+        
+        <li><a href="#about">Portfolio</a></li> 
+        <li><a href="#contact">Contact</a></li> 
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+<!--<nav class="navbar navbar-default navbar-fixed-top" id="navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Portfolio Page</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse navbar-right" aria-expanded="false" style="height: 1px;">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">Portfolio</a></li>
+            <li><a href="#contact-1">Contact</a></li>
+          </ul>
+          
+        </div><!--/.nav-collapse
+      </div>
+    </nav>-->
+<!--<nav class="navbar-collapse collapse navbar-default navbar-fixed-top" >
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Project name</a>
+      </div>
+      <ul class='nav navbar-nav navbar-right'>
+        <li><a>Hello</a></li>
+      </ul>
+    </div>
+</nav>-->
 
-<div class="home">
 
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
+<div class='container-fluid' id="main">
+  <div class="row">
+    <div class="col-sm-8" id='top'>
+      <h1>Ryan Au</h1>
+      <hr>
+      <h4>All around Computer Science, Programming, and Computer Engineering enthusiast</h4>
+      <h4>Dabbles in the dark arts of PHP, HTML & CSS, JavaScript, Python, and Java just to name a few.</h4>
+    </div>
+    <div class="col-sm-4">
+      <img class='img-circle' src="https://s-media-cache-ak0.pinimg.com/736x/b3/e1/97/b3e19765b8e71866d2e11e765ac0469a.jpg" id="profile-pic">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12" id="about">
+      <h1>
+        Portfolio
+      </h1>
+      <hr></hr>
+      <div class="col-sm-12 hold-portfolio">
+        <div class="row">
+          <div class="col-sm-6">
+            <p data-height="350" data-theme-id="0" data-slug-hash="OboPJy" data-default-tab="result" data-user="auryan898" data-embed-version="2" data-pen-title="OboPJy" class="codepen">See the Pen <a href="https://codepen.io/auryan898/pen/OboPJy/">OboPJy</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+            <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+          </div>
+          <div class="col-sm-6">
+            <p data-height="350" data-theme-id="0" data-slug-hash="xRabJN" data-default-tab="result" data-user="auryan898" data-embed-version="2" data-pen-title="xRabJN" class="codepen">See the Pen <a href="https://codepen.io/auryan898/pen/xRabJN/">xRabJN</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+            <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6" id="contact-1">
+      <h1>Contact Me</h1>
+      <hr>
+      <h4>Go ahead and contact me through any of my social media outlets. Typically I respond very quickly to contact by social networks</h4>
+    </div>
+    <div class="col-sm-6" id="contact">
+      <h3>Out on the Internet:</h3>
+      <div class="container-fluid">
+        <div class="row">
+          <a class="btn btn-light fa fa-facebook-official" href="https://www.facebook.com/ryan.au3" target="_blank"></a>
+          <a class="btn btn-light fa fa-github" href="https://github.com/auryan898" target="_blank"></a>
+          <a class="btn btn-light fa fa-google" href="https://plus.google.com/u/0/+RyanAuRyDude" target="_blank"></a>     
+        </div>
+        <div class="row">
+        <a class="btn btn-light fa fa-linkedin" href="https://www.linkedin.com/in/ryan-au-515245131
+" target="_blank"></a>
+          <a class="btn btn-light fa fa-free-code-camp" href="https://www.freecodecamp.com/auryan898" target="_blank"></a>
+          <a class="btn btn-light fa fa-codepen" href="https://codepen.io/auryan898/" target="_blank"></a>   
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
