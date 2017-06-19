@@ -1,0 +1,47 @@
+h1{font-family:Impact;}
+
+body {
+  font-family:Arial Black;
+  height:100%;
+  width:100%;
+  background-color:gray;
+  color:white;
+  
+}
+#main {
+  width: 80%;
+  background-color: rgb(80,80,120);
+  padding-top: 50px;
+}
+#main .row:nth-child(even){
+  background-color: rgb(120,80,120);
+}
+#main .row:nth-child(2){
+  
+}
+#profile-pic {
+  
+  width: 200px;
+  float: none;
+  position:relative;
+  margin: 0 auto 0 auto;
+}
+#navbar{
+  background-color:black;
+  
+}
+#contact {
+  padding-bottom: 90px;
+  text-align: center;
+}
+.btn.fa {
+  
+  font-size: 40px;
+  color: white;
+  border: 4px solid white;
+  float: none;
+}
+#contact .row:nth-child(n){
+  background-color: rgb(80,80,120);
+  text-align: center;
+}
