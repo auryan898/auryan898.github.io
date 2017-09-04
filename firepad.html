@@ -24,25 +24,33 @@
         apiKey: "AIzaSyDtMr2YbGfhE4GJBXXCbu9SosY3azgqaG8",
         authDomain: "burning-note.firebaseapp.com",
         databaseURL: "https://burning-note.firebaseio.com",
-        projectId: "burning-note",
-        storageBucket: "",
-        messagingSenderId: "503527047619"
+
       };
       firebase.initializeApp(config);
 
-      // Get Firebase Database reference.
+      var firepadDiv = document.getElementById('firepad');
       var firepadRef = firebase.database().ref();
-
-      // Create CodeMirror (with lineWrapping on).
-      var codeMirror = CodeMirror(document.getElementById('firepad'), { lineWrapping: true });
-
-      // Create Firepad (with rich text toolbar and shortcuts enabled).
-      var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-        richTextShortcuts: true,
-        richTextToolbar: true,
-        defaultText: 'Hello, World!'
-      });
+      var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true });
+      var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
+        { richTextShortcuts: true, richTextToolbar: true });
     }
   </script>
+  <style>
+    body {
+      height:100%;
+      width:100%;
+    }
+    .firepad {
+      /*width: 700px;*/
+      height: 500px;
+      /*background-color: #f62; */ /* dark orange background */
+    }
+
+    /* Note: CodeMirror applies its own styles which can be customized in the same way.
+     To apply a background to the entire editor, we need to also apply it to CodeMirror. */
+    .CodeMirror {
+      /*background-color: #f62;*/
+    }
+  </style>
 </body>
 </html>
