@@ -16,6 +16,7 @@
   <!--<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>-->
 </head>
 <body onload="init()">
+  <div id="userlist"></div>
   <div id="firepad"></div>
   <script>
     function init() {
@@ -28,19 +29,31 @@
 
       };
       firebase.initializeApp(config);
-
+      // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
+      var userId = Math.floor(Math.random() * 9999999999).toString();
       var firepadDiv = document.getElementById('firepad');
       var firepadRef = firebase.database().ref();
       var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
-      
+
       var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
-        { richTextShortcuts: true, richTextToolbar: true });
+          { richTextToolbar: true, richTextShortcuts: true, userId: userId});
+
+      //// Create FirepadUserList (with our desired userId).
+      var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
+          document.getElementById('userlist'), userId);
     }
   </script>
   <style>
-    body {
-      height:100%;
-      width:100%;
+    html { height: 100%; }
+    body { margin: 0; height: 100%; }
+    /* Height / width / positioning can be customized for your use case.
+       For demo purposes, we make the user list 175px and firepad fill the rest of the page. */
+    #userlist {
+      position: absolute; left: 0; top: 0; bottom: 0; height: auto;
+      width: 175px;
+    }
+    #firepad {
+      position: absolute; left: 175px; top: 0; bottom: 0; right: 0; height: auto;
     }
     .firepad {
       /*width: 700px;*/
