@@ -11,6 +11,7 @@
   <!-- Firepad -->
   <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
   <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+  <script src="https://codemirror.net/addon/runmode/colorize.js"></script>
 
   <!--<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>-->
 </head>
@@ -30,7 +31,8 @@
 
       var firepadDiv = document.getElementById('firepad');
       var firepadRef = firebase.database().ref();
-      var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true });
+      var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
+      
       var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
         { richTextShortcuts: true, richTextToolbar: true });
     }
