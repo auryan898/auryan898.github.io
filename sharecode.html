@@ -28,7 +28,7 @@
   <div id="firepad"></div>
   <script>
     var firepad = null;
-    function init() {
+    
       // Initialize Firebase.
       // TODO: replace with your Firebase project configuration.
       var config = {
@@ -51,7 +51,7 @@
       var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
           document.getElementById('userlist'), userId);
       
-    }
+    
   </script>
   <style>
     html { height: 100%; }
