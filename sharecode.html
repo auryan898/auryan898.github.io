@@ -21,8 +21,7 @@
 <body onload="init()">
   <div id="fileCreation">
     <a>filename: </a><input id="textbox" type="text">
-    <button id="create">Create Download</button>
-    <a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
+    <button id="create">Create Download</button><a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
   </div>
   <div id="userlist"></div>
   <div id="firepad"></div>
@@ -59,11 +58,11 @@
     /* Height / width / positioning can be customized for your use case.
        For demo purposes, we make the user list 175px and firepad fill the rest of the page. */
     #userlist {
-      position: absolute; left: 0; top: 20px; bottom: 0; height: auto;
+      position: absolute; left: 0; top: 50px; bottom: 0; height: auto;
       width: 175px;
     }
     #firepad {
-      position: absolute; left: 175px; top: 20px; bottom: 0; right: 0; height: auto;
+      position: absolute; left: 175px; top: 50px; bottom: 0; right: 0; height: auto;
     }
     .firepad {
       /*width: 700px;*/
