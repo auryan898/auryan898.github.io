@@ -99,7 +99,10 @@
           textbox = document.getElementById('textbox');
 
         create.addEventListener('click', function () {
+          var dt = new Date();
+          var utcDate = dt.toUTCString();
           var link = document.getElementById('downloadlink');
+          link.textContent = "Download Link " + utcDate;
           link.download = textbox.value;
           link.href = makeTextFile(firepad.getText());
           link.style.display = 'block';
