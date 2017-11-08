@@ -19,27 +19,12 @@
   <link rel="stylesheet" href="/static/firepad-userlist.css" />
 </head>
 <body onload="init()">
-  <table style="width:100%;">
-    <tr>
-      <th>
-        <div id="fileCreation">
-          <a>filename: </a><input id="textbox" type="text">
-          <button id="create">Create Download</button><a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
-        </div>
-      </th>
-      <th>
-        <p>
-          This webpage is a shared editor 
-          that anybody can access with a link.
-          
-          It's like Google Docs but for coding and also it belongs to me...
-          I didn't create the tool I just use it
-          Use the textbox and button to the left 
-          to turn all text here into a file. Maybe filetest.cpp
-        </p>
-      </th>
-    </tr>
-  </table>
+  
+  <div id="fileCreation">
+    <a>filename: </a><input id="textbox" type="text">
+    <button id="create">Create Download</button><a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
+  </div>
+      
   <div id="userlist"></div>
   <div id="firepad"></div>
   <script>
