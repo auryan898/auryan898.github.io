@@ -6,6 +6,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+  <!--Vue JS development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <!--Vue JS production version, optimized for size and speed -->
+  <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -75,7 +81,7 @@
       <h1>Ryan Au</h1>
       <hr>
       <h4>All around Computer Science, Programming, and Computer Engineering enthusiast</h4>
-      <h4>Dabbles in the dark arts of PHP, HTML & CSS, JavaScript, Python, and Java just to name a few.</h4>
+      <h4>Dabbles in the dark arts of PHP, HTML and CSS, JavaScript, Python, and Java just to name a few.</h4>
     </div>
     <div class="col-sm-4">
       <img class='img-circle' src="https://s-media-cache-ak0.pinimg.com/736x/b3/e1/97/b3e19765b8e71866d2e11e765ac0469a.jpg" id="profile-pic">
@@ -88,7 +94,15 @@
       </h1>
       <hr></hr>
       <div class="col-sm-12 hold-portfolio">
-          <div class="row">
+          <div id="iframe_vue" >
+            <div class="row" v-for="links in rows">
+                <div class="col-sm-6" v-for="link in links">
+                    <iframe :src="link" width="100%" height="350px"></iframe>
+                  </div>
+            </div>
+          </div>
+
+          <!-- <div class="row">
               <div class="col-sm-6">
                 <iframe src="https://auryan898.github.io/photoelectric-effect-simulation/index.html" width="100%" height="350px"></iframe>
               </div>
@@ -99,11 +113,21 @@
               </div>
               <div class="col-sm-6">
                 <iframe src="https://auryan898.github.io/thoughtCyclone/index.html" width="100%" height="350px"></iframe>
-              </div>
+              </div> -->
               
             </div>
 
-        <div class="row">
+        <div id="codepen_vue">
+          <div class="row" v-for="links in rows">
+              <div class="col-sm-6" v-for="link in links">
+                <p data-height="350" data-theme-id="0" :data-slug-hash="link" data-default-tab="result" data-user="auryan898" data-embed-version="2" :data-pen-title="link" class="codepen">See the Pen <a :href="'https://codepen.io/auryan898/pen/'+link+'/'">{{link}}</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+                
+              </div>
+          </div>
+        </div>
+        <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+        <!-- <div class="row">
           <div class="col-sm-6">
             <p data-height="350" data-theme-id="0" data-slug-hash="OboPJy" data-default-tab="result" data-user="auryan898" data-embed-version="2" data-pen-title="OboPJy" class="codepen">See the Pen <a href="https://codepen.io/auryan898/pen/OboPJy/">OboPJy</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
             <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
@@ -112,7 +136,7 @@
             <p data-height="350" data-theme-id="0" data-slug-hash="xRabJN" data-default-tab="result" data-user="auryan898" data-embed-version="2" data-pen-title="xRabJN" class="codepen">See the Pen <a href="https://codepen.io/auryan898/pen/xRabJN/">xRabJN</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
             <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
           </div>
-        </div>
+        </div> -->
         
       </div>
     </div>
@@ -141,4 +165,30 @@
     </div>
   </div>
 </div>
+
+<script>
+  
+  var iframe_app = new Vue({
+    el: '#iframe_vue',
+    data: {
+      rows: [
+        ["https://auryan898.github.io/photoelectric-effect-simulation/index.html",
+        "https://miltonstatic5060.github.io/"],
+
+        ["https://auryan898.github.io/thoughtCyclone/index.html"]
+      ],
+      len:0
+    }
+  });
+
+  var codepen_app = new Vue({
+    el: "#codepen_vue",
+    data: {
+      rows: [
+        ["OboPJy","xRabJN"]
+      ]
+    }
+  })
+</script>
+
 </body>
