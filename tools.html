@@ -12,7 +12,7 @@
   <!--Vue JS production version, optimized for size and speed -->
   <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
 
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
 
@@ -38,8 +38,11 @@
 </nav>
 
 
-<div class='container-fluid'>
+<div class='container-fluid' id='main'>
+  <label>Canadian Price To Convert</label>
   <input type="number" id="conversion-price" value="1"/>
+  <br/>
+  <label>Canadian Tax</label>
   <input type="number" id="conversion-tax" value="0.15"/>
   <span  id="conversion-tool">
     <p>The Canadian cost is {{ item_price }}. The exchange rate right now is {{ cad_to_us }} and tax is {{ item_tax }}. </p>
@@ -48,6 +51,15 @@
   
   
 </div>
+
+<style>
+#main {
+  margin-top:5px;
+}
+input {
+  color:black;
+}
+</style>
 
 <script>
   
