@@ -1,0 +1,62 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: Ryan's Website
+name: Ryan Au
+description: >- # this means ignore newlines until "baseurl:"
+  Ryan Au, Software Engineer. Interests in Robotics, Android Apps,
+  Robotics, 3D Design/Printing, 
+
+# twitter_username: auryan898
+github_username: auryan898
+email: auryan898@gmail.com
+email_school: ryan.au@mail.mcgill.ca
+phone_can: (438) 521-9076
+phone_usa: (617) 615-9076
+facebook_link: https://www.facebook.com/ryan.au3
+facebook_name: Ryan Au
+linkedin_link: ryan-au-515245131
+linkedin_name: Ryan Au
+codepen_username: auryan898
+instagram_username: auryan898
+# twitter_username: auryan898
+
+cover_pic_link: https://getbiggies.com/wp-content/uploads/2014/01/WW-MTO120.jpg
+# profile_pic_link: https://avatars3.githubusercontent.com/u/15135777?s=460&v=4
+profile_pic_link: https://scontent.fyhu2-1.fna.fbcdn.net/v/t1.0-1/p160x160/48381272_2204752802902482_745363223141679104_n.jpg?_nc_cat=101&_nc_ht=scontent.fyhu2-1.fna&oh=954ce0e4cdbcf02b75fcf660ed0af04c&oe=5D446710
+
+# baseurl:  ""
+# url: ""
+permalink: /post/:year/:month/:day/:title
+
+# Build settings
+# Markdown style to use
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+exclude:
+  - subsite/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/

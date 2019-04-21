@@ -1,97 +1,45 @@
-<!DOCTYPE html>
-<head>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+---
+layout: default
+title: Ryan Au's Not So Secret Directory Page
+---
+<h3>Welcome to the not so secret directory page</h3>
 
-  <link rel="stylesheet" href="style.css"/>
-</head>
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://auryan898.github.io/">Go To Ryan's Portfolio Page</a>
+<span class="row">
+    <div class="col-sm-6">
+        <h5>Brainstorm Ideas Pages:</h5>
+        <ul>
+            {% for pick in site.pages %}
+            {% if (pick.tags|join:";") contains "scratchwork" %}
+            <li>
+                <a href="{{ pick.url }}">
+                    {% if pick.title %}
+                    {{ pick.title }}
+                    {% else %}
+                    {{ pick.url }}
+                    {% endif %}
+                </a>
+            </li>
+            {%endif%}
+            {% endfor %}
+        </ul>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Home</a></li>
-
-        <li><a href="#secretPages">Secret pages</a></li>
-        
-      </ul>
-
+    <div class="col-sm-6">
+        <h5>All Other Pages:</h5>
+        <ul>
+            {% for pick in site.pages %}
+            {% if (pick.tags|join:";") contains "scratchwork" %}
+            {% else %}
+            <li>
+                <a href="{{ pick.url }}">
+                    {% if pick.title %}
+                    {{ pick.title }}
+                    {% else %}
+                    {{ pick.url }}
+                    {% endif %}
+                </a>
+            </li>
+            {%endif%}
+            {% endfor %}
+        </ul>
     </div>
-  </div>
-</nav>
-  
-  <style>
-      #secretPages a {
-        color: white;
-      }
-      #secretPages a:hover {
-        color: yellow;
-      }
-  </style>
-
-  <div class='container-fluid' id="main">
-  <div class="row" id='top'>
-    <div class="col-sm-8" id="secretPages">
-      <h1>Secret Pages</h1>
-      <hr>
-      <ul>
-          <li>
-            <a href="genPaint.html">Sprite Painter 1</a>
-          </li>
-          <li>
-            <a href="spritePainter.html">Sprite Painter 2</a>
-          </li>
-      </ul>
-    </div>
-    <div class="col-sm-4">
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12" id="about">
-      
-      <hr></hr>
-      <div class="col-sm-12 hold-portfolio">
-        <div class="row">
-          
-        </div>
-        <div class="row">
-          
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6" id="contact-1">
-      
-    </div>
-    <div class="col-sm-6" id="contact">
-      <h3>Out on the Internet:</h3>
-      <div class="container-fluid">
-        <div class="row">
-          <a class="btn btn-light fa fa-facebook-official" href="https://www.facebook.com/ryan.au3" target="_blank"></a>
-          <a class="btn btn-light fa fa-github" href="https://github.com/auryan898" target="_blank"></a>
-          <a class="btn btn-light fa fa-google" href="https://plus.google.com/u/0/+RyanAuRyDude" target="_blank"></a>
-        </div>
-        <div class="row">
-        <a class="btn btn-light fa fa-linkedin" href="https://www.linkedin.com/in/ryan-au-515245131
-        " target="_blank"></a>
-          <a class="btn btn-light fa fa-free-code-camp" href="https://www.freecodecamp.com/auryan898" target="_blank"></a>
-          <a class="btn btn-light fa fa-codepen" href="https://codepen.io/auryan898/" target="_blank"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
+</span>

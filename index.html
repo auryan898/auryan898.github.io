@@ -1,194 +1,157 @@
-<!DOCTYPE html>
-<head>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+---
+layout: default
+title: Ryan Au Homepage
+---
 
-  <!--Vue JS development version, includes helpful console warnings -->
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-  <!--Vue JS production version, optimized for size and speed -->
-  <!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
-
-  <link rel="stylesheet" href="style.css"/>
-</head>
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Ryan Au</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Home</a></li>
-
-        <li><a href="#about">Portfolio</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-
-    </div>
-  </div>
-</nav>
-  <!--<nav class="navbar navbar-default navbar-fixed-top" id="navbar">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Portfolio Page</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse navbar-right" aria-expanded="false" style="height: 1px;">
-          <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">Portfolio</a></li>
-            <li><a href="#contact-1">Contact</a></li>
-          </ul>
-
-        </div><!--/.nav-collapse
-      </div>
-    </nav>-->
-<!--<nav class="navbar-collapse collapse navbar-default navbar-fixed-top" >
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Project name</a>
-      </div>
-      <ul class='nav navbar-nav navbar-right'>
-        <li><a>Hello</a></li>
-      </ul>
-    </div>
-</nav>-->
-
-
-  <div class='container-fluid' id="main">
-  <div class="row">
-    <div class="col-sm-8" id='top'>
-      <h1>Ryan Au</h1>
-      <hr>
-      <h4>All around Computer Science, Programming, and Computer Engineering enthusiast</h4>
-      <h4>Dabbles in the dark arts of PHP, HTML and CSS, JavaScript, Python, and Java just to name a few.</h4>
-    </div>
-    <div class="col-sm-4">
-      <img class='img-circle' src="https://s-media-cache-ak0.pinimg.com/736x/b3/e1/97/b3e19765b8e71866d2e11e765ac0469a.jpg" id="profile-pic">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12" id="about">
-      <h1>
-        Portfolio
-      </h1>
-      <hr></hr>
-      <div class="col-sm-12 hold-portfolio">
-          <div id="iframe_vue" >
-            <div class="row" v-for="links in rows">
-                <div class="col-sm-6" v-for="link in links">
-                    <iframe seamless :src="link" width="100%" height="350px"></iframe>
-                  </div>
-            </div>
-          </div>
-
-          <!-- <div class="row">
-              <div class="col-sm-6">
-                <iframe src="https://auryan898.github.io/photoelectric-effect-simulation/index.html" width="100%" height="350px"></iframe>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-sm-6">
-                <iframe src="https://miltonstatic5060.github.io/" width="100%" height="350px"></iframe>
-              </div>
-              <div class="col-sm-6">
-                <iframe src="https://auryan898.github.io/thoughtCyclone/index.html" width="100%" height="350px"></iframe>
-              </div> -->
-              
-            </div>
-
-        <div id="codepen_vue">
-          <div class="row" v-for="links in rows">
-              <div class="col-sm-6" v-for="link in links">
-                <p data-height="350" data-theme-id="0" :data-slug-hash="link" data-default-tab="result" data-user="auryan898" data-embed-version="2" :data-pen-title="link" class="codepen">See the Pen <a :href="'https://codepen.io/auryan898/pen/'+link+'/'">{{link}}</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-                
-              </div>
-          </div>
-        </div>
-        <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-
-        <!-- <div class="row">
-          <div class="col-sm-6">
-            <p data-height="350" data-theme-id="0" data-slug-hash="OboPJy" data-default-tab="result" data-user="auryan898" data-embed-version="2" data-pen-title="OboPJy" class="codepen">See the Pen <a href="https://codepen.io/auryan898/pen/OboPJy/">OboPJy</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-            <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-          </div>
-          <div class="col-sm-6">
-            <p data-height="350" data-theme-id="0" data-slug-hash="xRabJN" data-default-tab="result" data-user="auryan898" data-embed-version="2" data-pen-title="xRabJN" class="codepen">See the Pen <a href="https://codepen.io/auryan898/pen/xRabJN/">xRabJN</a> by Ryan Au (<a href="https://codepen.io/auryan898">@auryan898</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-            <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-          </div>
-        </div> -->
-        
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6" id="contact-1">
-      <h1>Contact Me</h1>
-      <hr>
-      <h4>Go ahead and contact me through any of my social media outlets. Typically I respond very quickly to contact by social networks</h4>
-    </div>
-    <div class="col-sm-6" id="contact">
-      <h3>Out on the Internet:</h3>
-      <div class="container-fluid">
-        <div class="row">
-          <a class="btn btn-light fa fa-facebook-official" href="https://www.facebook.com/ryan.au3" target="_blank"></a>
-          <a class="btn btn-light fa fa-github" href="https://github.com/auryan898" target="_blank"></a>
-          <a class="btn btn-light fa fa-google" href="https://plus.google.com/u/0/+RyanAuRyDude" target="_blank"></a>
-        </div>
-        <div class="row">
-        <a class="btn btn-light fa fa-linkedin" href="https://www.linkedin.com/in/ryan-au-515245131
-        " target="_blank"></a>
-          <a class="btn btn-light fa fa-free-code-camp" href="https://www.freecodecamp.com/auryan898" target="_blank"></a>
-          <a class="btn btn-light fa fa-codepen" href="https://codepen.io/auryan898/" target="_blank"></a>
-        </div>
-      </div>
-    </div>
+<div id="cover-photo" class="img-responsive" >
+  <img src="{{ site.cover_pic_link }}"/>
+  <div>
   </div>
 </div>
+<div id="profile-content">
+  <img id="profile-photo" class="rounded-circle" src="{{ site.profile_pic_link }}">
+  <h1 class="text-center border-bottom">Ryan Au</h1>
+  <span class="row">
+    <div class="col-md-4">
+      <div class="card text-left">
+        <div class="card-body">
+          <!-- <h5 class="card-title"></h5> -->
+          <p class="card-text">
+            I'm a Software Engineering major at McGill University. 
+            I use Python, Java, JavaScript, C++, PHP, and C#. 
+            I've got interests in App making, Game Development,
+            Robotics, 3D CAD/Printing, Data Analysis, and Website building
+          </p>
+        </div>
+      </div> <!--div.card-->
+    </div>
+    <div class="col-md-4">
+      <div class="card text-justify">
+        <div class="card-body row">
+          <!-- <h5 class="card-title"></h5> -->
+          <p class="col-sm-7 card-text text-md-left text-nowrap">
+            Montreal, QC, Canada<br/>
+            Boston, MA, USA<br/>
+            {% if site.email %}
+              <a class="card-link" href="mailto:{{site.email}}" target="_blank">
+                <!-- <img src="/img/GitHub-Mark-32px.png"/> -->
+                {{site.email}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.email_school %}
+              <a class="card-link" href="mailto:{{site.email_school}}" target="_blank">
+                <!-- <img src="/img/GitHub-Mark-32px.png"/> -->
+                {{site.email_school}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.phone_can%}
+              <a class="card-link">CAN:{{site.phone_can}}</a>
+              <br/>
+            {% endif %}
+            {% if site.phone_usa%}
+              <a class="card-link">USA:{{site.phone_usa}}</a>
+              <br/>
+            {% endif %}
+          </p>
+          <p class="col-sm-5 card-text text-md-right text-truncate">
+            {% if site.github_username %}
+              <a class="card-link" href="https://github.com/{{site.github_username}}" target="_blank">
+                <!-- <img src="/img/GitHub-Mark-32px.png"/> -->
+                <span class="fa fa-github social-icon"></span>
+                {{site.github_username}}
+              </a>
+              <br/>
+            {% endif %}
+            
+            {% if site.facebook_link %}
+              <a class="card-link" href="{{site.facebook_link}}" target="_blank">
+                <span class="fa fa-facebook social-icon"></span>
+                {{site.facebook_name}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.linkedin_link %}
+              <a class="card-link" href="https://linkedin.com/in/{{site.linkedin_username}}" target="_blank">
+                <span class="fa fa-linkedin social-icon"></span>
+                {{site.linkedin_name}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.codepen_username %}
+              <a class="card-link" href="https://codepen.io/{{site.codepen_username}}" target="_blank">
+                <span class="fa fa-codepen social-icon"></span>
+                {{site.codepen_username}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.twitter_username %}
+              <a class="card-link" href="https://twitter.com/{{site.twitter_username}}" target="_blank">
+                <span class="fa fa-twitter social-icon"></span>
+                {{site.twitter_username}}
+              </a>
+              <br/>
+            {% endif %}
+          </p>
+        </div>
+      </div> <!--div.card-->
+    </div>
+    <div class="col-md-4">
+        <div class="card text-left">
+          <div class="card-body">
+            <!-- <h5 class="card-title"></h5> -->
+            <p class="card-text">
+              I'll definitely answer emails and calls/texts. 
+              See me on my social media, but I don't really 
+              care about those so much.  I'm looking for 
+              internships, volunteer work, basically any and
+              all experiences I can find. Doesn't even need 
+              to be tech related, but I would love that.
+            </p>
+          </div>
+        </div> <!--div.card-->
+    </div>
+  </span><!--span.row-->
+  <span class="container">
+    {% include home-portfolio.html %}
+  </span><!--span.container-->
+</div>
+<style>
 
-<script>
-  
-  var iframe_app = new Vue({
-    el: '#iframe_vue',
-    data: {
-      rows: [
-        ["https://auryan898.github.io/photoelectric-effect-simulation/index.html",
-        "https://miltonstatic5060.github.io/"],
+.social-icon {
+  color:black;
+  font-size:32px;
+}
+#profile-content {
+  position: relative;
+  top:-185px;
+}
+#cover-photo img {
+  object-fit: cover;
+  height:300px;
+  position:relative;
+  width:100%;
+  top:0px;
+  z-index:-10;
+  overflow: hidden;
+}
+#profile-photo {
+  position: relative;
+  /* top:-200px; */
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 185px;
+  border: 10px double white;
+  background-color: lightgrey;
+}
 
-        ["https://auryan898.github.io/thoughtCyclone/index.html"]
-      ],
-      len:0
-    }
-  });
-
-  var codepen_app = new Vue({
-    el: "#codepen_vue",
-    data: {
-      rows: [
-        ["OboPJy","xRabJN"]
-      ]
-    }
-  })
-</script>
-
-</body>
+@media only screen and (max-width: 600px) {
+  #cover-photo {
+    object-fit: none;
+    height:50%;
+    width:100%;
+  }  
+}
+</style>

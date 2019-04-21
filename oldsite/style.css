@@ -1,24 +1,26 @@
-h1{font-family:Impact;}
+/* #E27D5F #85CDCA #E8A87C #C38D9E #4BB3A2 #eba0eb */
+
+h1{
+  /* font-family:Impact; */
+}
 
 body {
-  font-family:Arial Black;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   height:100%;
   width:100%;
-  background-color:gray;
+  background-color:#85DCB0;
   color:white;
   
 }
 #main {
   width: 80%;
-  background-color: rgb(80,80,120);
+  background-color: #85CDCA;
   padding-top: 50px;
 }
 #main .row:nth-child(even){
-  background-color: rgb(120,80,120);
+  background-color: rgb(235, 160, 235);
 }
-#main .row:nth-child(2){
-  
-}
+
 #profile-pic {
   
   width: 200px;
@@ -31,8 +33,10 @@ body {
   
 }
 #contact {
+  color:black;
   padding-bottom: 90px;
   text-align: center;
+  background-color: #E27D5F;
 }
 .btn.fa {
   
@@ -40,8 +44,4 @@ body {
   color: white;
   border: 4px solid white;
   float: none;
-}
-#contact .row:nth-child(n){
-  background-color: rgb(80,80,120);
-  text-align: center;
 }
