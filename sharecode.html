@@ -1,4 +1,5 @@
 ---
+  layout: default
   title: Firepad Editor Specifically For Sharing
   tags: ['firepad','scratchwork']
 ---
@@ -19,60 +20,268 @@
 
   <!--<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>-->
 
+  <!--FireBaseUI for authentication UI-->
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
   <script src="/oldsite/static/firepad-userlist.js"></script>
   <link rel="stylesheet" href="/oldsite/static/firepad-userlist.css" />
 </head>
-<body onload="init()">
-  
-  <div id="fileCreation">
+<body>
+  <span class="card">
+    <div class="card-body">
+      <h3 class="card-title"><em>Burning Notes: Shared Text/Coding Editor</em></h3>
+      <p class="card-subtitle text-muted">Based on <a href="https://www.firepad.io" target="_blank">Firepad</a></p>
+      <p class="card-text">
+        This is a "shared" editor, basically Google Docs, but writing code looks nice here.  
+        Write anything you want into this editor, highlight, color, and change the font.  
+        You can write code, text, maybe add images, whatever helps.  
+        <br/>
+        <em class="text-muted">This application is for educational/recreational purposes only (I can't think of any other good uses)</em>
+        <hr/>
+        Use the <b><u>DOWNLOAD AS FILE</u></b> button to download a "plaintext" version of what you see here.  
+        Basically it's something that you can run as a program on your computer/device.  You might 
+        notice weird things and characters show up if you try to copy-paste things...<b><u>copy from here at your own risk</u></b>
+      </p>
+    </div>
+  </span>
+  <br/>
+  <!-- Modal -->
+  <div class="modal fade" id="fileCreation" tabindex="-1" role="dialog" aria-labelledby="fileCreationLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="fileCreationLabel">Input File Name To Download</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
+          <a>filename: </a><input id="textbox" type="text">
+          <select class="" id="downloadExtension">
+            <option>.txt</option>
+            <option value="">(none)</option>
+            {% assign exts = ".java .py .js  .h .c .html .css .cpp .asm" | split:" " %}
+            {% for e in exts %}
+            <option>{{e}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="create" type="button" class="btn btn-primary" data-dismiss="modal">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="checkpointSave" tabindex="-1" role="dialog" aria-labelledby="checkpointSaveLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="checkpointLoadLabel">Input Give A Name To New Version</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <a>Version Name: </a><input id="saveCheckpointName" type="text">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="saveCheckpointButton" type="button" class="btn btn-primary" data-dismiss="modal">Save Version</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="checkpointLoad" tabindex="-1" role="dialog" aria-labelledby="checkpointLoadLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="checkpointLoadLabel">Select a Version to Load</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form  id="loadList">
+              <em>No Versions To Display</em>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="loadCheckpointButton" class="btn btn-primary" data-dismiss="modal">Load Version</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <span class="" style="display:inline-flex" role="group" aria-label="Basic example">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileCreation">
+      Download as File
+    </button>
+    <div class="dropdown">
+      <button class="btn btn-success dropdown-toggle" type="button" id="versioningDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Version History
+      </button>
+      <div class="dropdown-menu" aria-labelledby="versioningDropdown">
+        <a class="dropdown-item" href="#checkpointSave" data-toggle="modal">Save New Checkpoint</a>
+        <a class="dropdown-item" href="#checkpointLoad" data-toggle="modal">Load Checkpoint</a>
+        <button class="dropdown-item" id="clearNotepadHistory">Clear History Cache</button>
+      </div>
+    </div>
+  </span>
+
+  <!-- <div id="fileCreation">
     <a>filename: </a><input id="textbox" type="text">
     <button id="create">Create Download</button><a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
-  </div>
-      
-  <div id="userlist"></div>
-  <div id="firepad"></div>
-  <script>
-    var firepad = null;
-    
-      // Initialize Firebase.
-      // TODO: replace with your Firebase project configuration.
-      var config = {
-        apiKey: "AIzaSyCBv2ZbitECQn1n3FPCpRhV15yy8-L3vwY",
-        authDomain: "burning-notes-code-sharing.firebaseapp.com",
-        databaseURL: "https://burning-notes-code-sharing.firebaseio.com"
+  </div> -->
 
-      };
-      firebase.initializeApp(config);
+
+  <div id="notepad-container">
+    <div id="userlist"></div>
+    <div id="firepad"></div>
+  </div>
+
+  <script>
+    var notepad_name = "main-0001";
+
+    var firepad = null;
+    // Initialize Firebase.
+    // TODO: replace with your Firebase project configuration.
+    var firepadDiv = document.getElementById('firepad');
+    
+    var config = {
+      apiKey: "AIzaSyCBv2ZbitECQn1n3FPCpRhV15yy8-L3vwY",
+      authDomain: "burning-notes-code-sharing.firebaseapp.com",
+      databaseURL: "https://burning-notes-code-sharing.firebaseio.com",
+      storageBucket: "gs://burning-notes-code-sharing.appspot.com"
+    };
+    var app = firebase.initializeApp(config);
+    var path = '/notepads/'+notepad_name;
+
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    // AUTHENTICATION
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+        document.getElementById("SignIn").style.display = "none";
+        document.getElementById("SignOut").style.display = "block";
+      } else {
+        // User is signed out.
+        // ...
+      }
+    });
+    
+    function signIn(){
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+    }
+    function signOut(){
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+      }).catch(function(error) {
+        // An error happened.
+      });
+    }
+    // END AUTHENTICATION
+
+    function initializeFirepad(firepadDiv, app, path){
       // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
       var userId = Math.floor(Math.random() * 9999999999).toString();
-      var firepadDiv = document.getElementById('firepad');
-      var firepadRef = firebase.database().ref();
+      var firepadRef = app.database().ref(path);
       var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
 
-      var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
-          { richTextToolbar: true, richTextShortcuts: true, userId: userId});
+      firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
+        { richTextToolbar: true, richTextShortcuts: true, userId: userId});
 
       //// Create FirepadUserList (with our desired userId).
       var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-          document.getElementById('userlist'), userId);
-      
-    
+        document.getElementById('userlist'), userId);
+    }
+    initializeFirepad(firepadDiv, app, path);
+    document.getElementById('SignIn').onclick = signIn;
+    // var app = firebase.initializeApp(config);
+    // // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
+    // var userId = Math.floor(Math.random() * 9999999999).toString();
+    // var firepadRef = app.database().ref('/notepads/main-0001');
+    // var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
+
+    // var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
+    //   { richTextToolbar: true, richTextShortcuts: true, userId: userId});
+
+    // //// Create FirepadUserList (with our desired userId).
+    // var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
+    //   document.getElementById('userlist'), userId);
+
+
   </script>
   <style>
     html { height: 100%; }
-    body { margin: 0; height: 100%; }
+    body { margin: 0; height: 100%; min-width:600px;}
     /* Height / width / positioning can be customized for your use case.
        For demo purposes, we make the user list 175px and firepad fill the rest of the page. */
+    
+    #loadList {
+      max-height: 200px;
+      overflow-y:scroll;
+    }
+
+    #notepad-container {
+      height:500px;
+    }
     #userlist {
-      position: absolute; left: 0; top: 50px; bottom: 0; height: auto;
-      width: 175px;
+      width:20%;
+      min-width:150px;
+      position:relative;
+      /* margin:0; */
+      /* position: relative; left: 0; top: 50px; bottom: 0; height: auto;
+      width: 175px; */
+      /* overflow-y:scroll; */
     }
     #firepad {
-      position: absolute; left: 175px; top: 50px; bottom: 0; right: 0; height: auto;
+      position:relative;
+      margin-left: 20%;
+      top:-400px;
+      min-width:400px;
+      /* position: relative; left: 175px; top: 50px; bottom: 0; right: 0; height: auto; */
+      /* width:auto; */
+      
+    }
+    .firepad-userlist {
+      position:relative;
+      min-width:150px;
     }
     .firepad {
-      /*width: 700px;*/
-      height: 500px;
+      min-width:400px;
+      height: 400px;
+      /* display:inline-block */
+      /* position:relative; */
+      /* float:right; */
+      /* width: 80%; */
+      /* min-width:400px; */
       /*background-color: #f62; */ /* dark orange background */
     }
 
@@ -81,39 +290,156 @@
     .CodeMirror {
       /*background-color: #f62;*/
     }
+    @media only screen and (max-width:750px){
+      #firepad {
+        margin-left:150px;
+      }
+    }
   </style>
   
   
   <script>
+    (function(){
+      document.getElementById('clearNotepadHistory').addEventListener("click", 
+        function() {
+          var text = firepad.getHtml();
+          console.log('started clearing action');
+          firebase.database().ref(path).child('history').set({});
+          firepad.setText("");
+          console.log('completed clearing action (2)');
+        });
+    })();
+
     (function () {
-      var textFile = null,
-        makeTextFile = function (text) {
-          var data = new Blob([text], {type: 'text/plain'});
+      var textFile = null
+      var makeTextFile = function (text) {
+        var data = new Blob([text], {type: 'text/plain'});
 
-          // If we are replacing a previously generated file we need to
-          // manually revoke the object URL to avoid memory leaks.
-          if (textFile !== null) {
-            window.URL.revokeObjectURL(textFile);
-          }
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+          window.URL.revokeObjectURL(textFile);
+        }
 
-          textFile = window.URL.createObjectURL(data);
+        textFile = window.URL.createObjectURL(data);
 
-          return textFile;
-        };
+        return textFile;
+      };
+      var create = document.getElementById('create');
+      var textbox = document.getElementById('textbox');
+      var link = document.getElementById('downloadlink');
+      var ext = document.getElementById('downloadExtension');
 
-        var create = document.getElementById('create'),
-          textbox = document.getElementById('textbox');
 
-        create.addEventListener('click', function () {
-          var dt = new Date();
-          var utcDate = dt.toUTCString();
-          var link = document.getElementById('downloadlink');
-          link.textContent = "Download Link " + utcDate;
-          link.download = textbox.value;
-          link.href = makeTextFile(firepad.getText());
-          link.style.display = 'block';
-        }, false);
-      })();
+      create.addEventListener('click', function () {
+        var dt = new Date();
+        var utcDate = dt.toISOString();
+        var defaultString = "burning_notes_file_" + utcDate;
+        // link.textContent = "Download Link " + utcDate;
+        link.style.display = 'none';
+        link.download = (textbox.value == '' ? defaultString : textbox.value ) + ext.value;
+        link.href = makeTextFile(firepad.getText());
+        link.click();
+      }, false);
+    })();
+    
+    (function () {
+      var saveButton = document.getElementById("saveCheckpointButton");
+
+      saveButton.addEventListener('click', function () {
+        // var dt = new Date();
+        var utcDate = new Date().toISOString();
+        var saveName = document.getElementById("saveCheckpointName").value;
+        var filename = saveName+"_"+ notepad_name +"_" + utcDate + ".html";
+        var blob = new Blob([firepad.getHtml()], {type: 'text/plain'});;
+        var locationRef = firebase.database().ref(path+"/versions");
+        var data = {}
+        data[locationRef.push().key] = filename;
+        locationRef.update(data);
+        var storageRef = firebase.storage().ref().child("notepad_versions/"+filename);
+        storageRef.put(blob).then(function(snapshot){
+          console.log("Successfully uploaded "+filename);
+        });
+      }, false);
+    })();
+
+    (function () {
+      var locationRef = firebase.database().ref(path+"/versions");
+
+      var loadList = document.getElementById('loadList');
+      var updateCheckpointList = function(data){
+        data.sort(function(a,b){ 
+          var x = a.split("_")[a.length-1], y = b.split("_")[b.length-1]
+          return ( ( x == y ) ? 0 : ( ( x > y ) ? 1 : -1 ) ) });
+        loadList.innerHTML = "";
+        for (item in data){
+          console.log(data[item]);
+          loadList.innerHTML += (`<div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="radio" name="loadList" value="${data[item]}">
+                  </div>
+                </div>
+                <p class="form-control">${data[item]}</p>
+              </div>`);
+        }
+      }
+      locationRef.on("value",function(snapshot){
+        var data = snapshot.val();
+        console.log(data);
+        updateCheckpointList(Object.values(data));
+      });
+      
+
+      var loadButton = document.getElementById("loadCheckpointButton");
+
+
+      loadButton.addEventListener('click', function () {
+        // var dt = new Date();
+        var utcDate = new Date().toISOString();
+        var filename = $("input[name='loadList']:checked").val();;
+        // var filename = loadName+"_"+ notepad_name +"_" + utcDate + ".html";
+        // var blob = new Blob([firepad.getHtml()], {type: 'text/plain'});;
+        // var locationRef = firebase.database().ref(path+"/versions");
+        // var data = {}
+        // data[locationRef.push().key] = filename;
+        // locationRef.update(data);
+        console.log(filename);
+        var storageRef = firebase.storage().ref().child("notepad_versions/"+filename);
+        
+        // storageRef.put(blob).then(function(snapshot){
+        //   console.log("Successfully uploaded "+filename);
+        // });
+
+        storageRef.getDownloadURL().then(function(url) {
+          // `url` is the download URL for the html file
+
+          // This can be downloaded directly:
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          xhr.onload = function(event) {
+            var blob = xhr.response;
+            var reader = new FileReader();
+            reader.addEventListener("loadend", function() {
+              // reader.result contains the contents of blob as a string text
+              firepad.setHtml(reader.result);
+            });
+            reader.readAsText(blob);
+          };
+          xhr.open('GET', url);
+          xhr.send();
+
+          // Or inserted into an <img> element:
+          var img = document.getElementById('myimg');
+          img.src = url;
+        }).catch(function(error) {
+          // Handle any errors
+        });
+      }, false);
+    })();
+
+    
+
   </script>
 
 </body>
