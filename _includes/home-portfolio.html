@@ -1,28 +1,77 @@
 <div class="card">
   <div class="card-body">
-    <h2 class="card-title border-bottom">My Portfolio</h2>
-    <span class="row">
-      {% for post in site.categories.work_blog %}
-      
-        <div class="card col-xs-4 work-blog-card">
-          <a href="{{post.url}}" class="work-blog-content">
-            <div class="card-body"  href="{{post.url}}" target="_blank">
-              <img class="img-fluid border" src="{{post.image-link}}"/>
-              <h5 class="card-title">{{ post.title }}</h5>
-              <p class="card-text text-wrap">{{ post.content | truncate: 100 }}</p>
-            </div>
-          </a>
-        </div>
-      {% endfor %}
-      <!-- {% for post in site.categories.work_blog %}
-      
-      {% endfor %} -->
-    </span>
-    
+    <h2 class="card-title border-bottom">
+      <a class="profile-collapser" role="button" data-toggle="collapse" href="#home-portfolio" aria-expanded="false" aria-controls="collapseExample">
+      </a>
+      My Portfolio
+    </h2>
+        
+    <div class="collapse profile-collapsible" id="home-portfolio" aria-expanded="false">
+      <span class="row">  
+        {% for post in site.categories.work_blog %}
+        
+          <div class="card col-xs-4 work-blog-card">
+            <a href="{{post.url}}" class="work-blog-content">
+              <div class="card-body"  href="{{post.url}}" target="_blank">
+                <img class="img-fluid border" src="{{post.image-link}}"/>
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text text-wrap">{{ post.content | truncate: 100 }}</p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+        <!-- {% for post in site.categories.work_blog %}
+        
+        {% endfor %} -->
+      </span>
+    </div>
   </div>
 </div>
 
 <style>
+a.profile-collapser {
+  text-decoration: none !important;
+  color:black;
+}
+a.profile-collapser[aria-expanded="false"]:after{
+  content:"";
+  display:inline-block;
+  height:32px;
+  width:32px;
+  background-image: url("/css/open-iconic/svg/plus.svg");
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: auto;
+  color: black;
+}
+a.profile-collapser[aria-expanded="true"]:after{
+  content:"";
+  display:inline-block;
+  height:32px;
+  width:32px;
+  background-image: url("/css/open-iconic/svg/minus.svg");
+  background-repeat: no-repeat;
+  background-size: 32px;
+  color: black;
+}
+
+.profile-collapsible.collapsing {
+  height: 200px;
+}
+.profile-collapsible.collapse:not(.show) {
+  /*  */
+  /* background-color:grey; */
+  opacity:0.5;
+  display:block;
+  visibility:visible;
+  overflow:hidden;
+  height: 200px;
+}
+.profile-collapsible.collapse.show {
+  overflow:none;
+  height: auto;
+}
+
 .work-blog-card {
   width:33%;
   border: none;
