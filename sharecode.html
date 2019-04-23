@@ -1,33 +1,10 @@
 ---
-  layout: default
+  layout: burning-notes
   title: Firepad Editor Specifically For Sharing
   tags: ['firepad','scratchwork']
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
-  <!-- CodeMirror -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
-
-  <!-- Firepad -->
-  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
-  <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
-  <script src="https://codemirror.net/addon/runmode/colorize.js"></script>
-
-  <!--<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>-->
-
-  <!--FireBaseUI for authentication UI-->
-  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-
-  <script src="/oldsite/static/firepad-userlist.js"></script>
-  <link rel="stylesheet" href="/oldsite/static/firepad-userlist.css" />
-</head>
-<body>
+<span id="firepad-main-body">
   <span class="card">
     <div class="card-body">
       <h3 class="card-title"><em>Burning Notes: Shared Text/Coding Editor</em></h3>
@@ -132,115 +109,43 @@
     </div>
   </span>
 
-  <!-- <div id="fileCreation">
-    <a>filename: </a><input id="textbox" type="text">
-    <button id="create">Create Download</button><a download="downloadfile.txt" id="downloadlink" style="display: none">Download As File</a>
-  </div> -->
-
-
   <div id="notepad-container">
     <div id="userlist"></div>
     <div id="firepad"></div>
   </div>
 
   <script>
-    var notepad_name = "main-0001";
+    document.body.onload = (function(){
 
-    var firepad = null;
-    // Initialize Firebase.
-    // TODO: replace with your Firebase project configuration.
-    var firepadDiv = document.getElementById('firepad');
-    
-    var config = {
-      apiKey: "AIzaSyCBv2ZbitECQn1n3FPCpRhV15yy8-L3vwY",
-      authDomain: "burning-notes-code-sharing.firebaseapp.com",
-      databaseURL: "https://burning-notes-code-sharing.firebaseio.com",
-      storageBucket: "gs://burning-notes-code-sharing.appspot.com"
-    };
-    var app = firebase.initializeApp(config);
-    var path = '/notepads/'+notepad_name;
+      var notepad_name = "main-0001";
+      var path = '/notepads/'+notepad_name;
+      var firepad = null;
+      
+      var firepad_div = document.getElementById('firepad');
+      firepad = initializeFirepad(firepad_div, path);
 
-    var provider = new firebase.auth.GoogleAuthProvider();
+      var clear_button = document.getElementById("clearNotepadHistory");
+      initializeFirepad_clear(clear_button);
 
-    // AUTHENTICATION
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
-        document.getElementById("SignIn").style.display = "none";
-        document.getElementById("SignOut").style.display = "block";
-      } else {
-        // User is signed out.
-        // ...
-      }
+      var download_button = document.getElementById('create');
+      var download_textbox = document.getElementById('textbox');
+      var download_ext = document.getElementById('downloadExtension');
+      initializeFirepad_download(download_button,download_textbox,download_ext);
+
+      var save_button = document.getElementById("saveCheckpointButton");
+      var save_name = document.getElementById("saveCheckpointName");
+      initializeFirepad_saveVersion(firepad,path,notepad_name,save_button,save_name);
+
+      var load_list = document.getElementById('loadList');
+      var load_button = document.getElementById("loadCheckpointButton");
+      initializeFirepad_loadVersion(firepad,path,notepad_name,load_list,load_button);
+
+      
     });
-    
-    function signIn(){
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        // ...
-      }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-      });
-    }
-    function signOut(){
-      firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-      }).catch(function(error) {
-        // An error happened.
-      });
-    }
-    // END AUTHENTICATION
-
-    function initializeFirepad(firepadDiv, app, path){
-      // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
-      var userId = Math.floor(Math.random() * 9999999999).toString();
-      var firepadRef = app.database().ref(path);
-      var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
-
-      firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
-        { richTextToolbar: true, richTextShortcuts: true, userId: userId});
-
-      //// Create FirepadUserList (with our desired userId).
-      var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-        document.getElementById('userlist'), userId);
-    }
-    initializeFirepad(firepadDiv, app, path);
-    document.getElementById('SignIn').onclick = signIn;
-    // var app = firebase.initializeApp(config);
-    // // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
-    // var userId = Math.floor(Math.random() * 9999999999).toString();
-    // var firepadRef = app.database().ref('/notepads/main-0001');
-    // var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
-
-    // var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
-    //   { richTextToolbar: true, richTextShortcuts: true, userId: userId});
-
-    // //// Create FirepadUserList (with our desired userId).
-    // var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-    //   document.getElementById('userlist'), userId);
-
-
   </script>
   <style>
-    html { height: 100%; }
-    body { margin: 0; height: 100%; min-width:600px;}
+    /* html { height: 100%; } */
+    #firepad-main-body { margin: 0; height: 100%; min-width:600px;}
     /* Height / width / positioning can be customized for your use case.
        For demo purposes, we make the user list 175px and firepad fill the rest of the page. */
     
@@ -296,151 +201,4 @@
       }
     }
   </style>
-  
-  
-  <script>
-    (function(){
-      document.getElementById('clearNotepadHistory').addEventListener("click", 
-        function() {
-          var text = firepad.getHtml();
-          console.log('started clearing action');
-          firebase.database().ref(path).child('history').set({});
-          firepad.setText("");
-          console.log('completed clearing action (2)');
-        });
-    })();
-
-    (function () {
-      var textFile = null
-      var makeTextFile = function (text) {
-        var data = new Blob([text], {type: 'text/plain'});
-
-        // If we are replacing a previously generated file we need to
-        // manually revoke the object URL to avoid memory leaks.
-        if (textFile !== null) {
-          window.URL.revokeObjectURL(textFile);
-        }
-
-        textFile = window.URL.createObjectURL(data);
-
-        return textFile;
-      };
-      var create = document.getElementById('create');
-      var textbox = document.getElementById('textbox');
-      var link = document.getElementById('downloadlink');
-      var ext = document.getElementById('downloadExtension');
-
-
-      create.addEventListener('click', function () {
-        var dt = new Date();
-        var utcDate = dt.toISOString();
-        var defaultString = "burning_notes_file_" + utcDate;
-        // link.textContent = "Download Link " + utcDate;
-        link.style.display = 'none';
-        link.download = (textbox.value == '' ? defaultString : textbox.value ) + ext.value;
-        link.href = makeTextFile(firepad.getText());
-        link.click();
-      }, false);
-    })();
-    
-    (function () {
-      var saveButton = document.getElementById("saveCheckpointButton");
-
-      saveButton.addEventListener('click', function () {
-        // var dt = new Date();
-        var utcDate = new Date().toISOString();
-        var saveName = document.getElementById("saveCheckpointName").value;
-        var filename = saveName+"_"+ notepad_name +"_" + utcDate + ".html";
-        var blob = new Blob([firepad.getHtml()], {type: 'text/plain'});;
-        var locationRef = firebase.database().ref(path+"/versions");
-        var data = {}
-        data[locationRef.push().key] = filename;
-        locationRef.update(data);
-        var storageRef = firebase.storage().ref().child("notepad_versions/"+filename);
-        storageRef.put(blob).then(function(snapshot){
-          console.log("Successfully uploaded "+filename);
-        });
-      }, false);
-    })();
-
-    (function () {
-      var locationRef = firebase.database().ref(path+"/versions");
-
-      var loadList = document.getElementById('loadList');
-      var updateCheckpointList = function(data){
-        data.sort(function(a,b){ 
-          var x = a.split("_")[a.length-1], y = b.split("_")[b.length-1]
-          return ( ( x == y ) ? 0 : ( ( x > y ) ? 1 : -1 ) ) });
-        loadList.innerHTML = "";
-        for (item in data){
-          console.log(data[item]);
-          loadList.innerHTML += (`<div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <input type="radio" name="loadList" value="${data[item]}">
-                  </div>
-                </div>
-                <p class="form-control">${data[item]}</p>
-              </div>`);
-        }
-      }
-      locationRef.on("value",function(snapshot){
-        var data = snapshot.val();
-        console.log(data);
-        updateCheckpointList(Object.values(data));
-      });
-      
-
-      var loadButton = document.getElementById("loadCheckpointButton");
-
-
-      loadButton.addEventListener('click', function () {
-        // var dt = new Date();
-        var utcDate = new Date().toISOString();
-        var filename = $("input[name='loadList']:checked").val();;
-        // var filename = loadName+"_"+ notepad_name +"_" + utcDate + ".html";
-        // var blob = new Blob([firepad.getHtml()], {type: 'text/plain'});;
-        // var locationRef = firebase.database().ref(path+"/versions");
-        // var data = {}
-        // data[locationRef.push().key] = filename;
-        // locationRef.update(data);
-        console.log(filename);
-        var storageRef = firebase.storage().ref().child("notepad_versions/"+filename);
-        
-        // storageRef.put(blob).then(function(snapshot){
-        //   console.log("Successfully uploaded "+filename);
-        // });
-
-        storageRef.getDownloadURL().then(function(url) {
-          // `url` is the download URL for the html file
-
-          // This can be downloaded directly:
-          var xhr = new XMLHttpRequest();
-          xhr.responseType = 'blob';
-          xhr.onload = function(event) {
-            var blob = xhr.response;
-            var reader = new FileReader();
-            reader.addEventListener("loadend", function() {
-              // reader.result contains the contents of blob as a string text
-              firepad.setHtml(reader.result);
-            });
-            reader.readAsText(blob);
-          };
-          xhr.open('GET', url);
-          xhr.send();
-
-          // Or inserted into an <img> element:
-          var img = document.getElementById('myimg');
-          img.src = url;
-        }).catch(function(error) {
-          // Handle any errors
-        });
-      }, false);
-    })();
-
-    
-
-  </script>
-
-</body>
-</html>
+</span>

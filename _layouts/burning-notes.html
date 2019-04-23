@@ -9,27 +9,51 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link href="/css/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+  <!-- CodeMirror -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
+
+  <!-- Firepad -->
+  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+  <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+  <script src="https://codemirror.net/addon/runmode/colorize.js"></script>
+
+  <!--<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>-->
+
+  <!--FireBaseUI for authentication UI-->
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+  <script src="/oldsite/static/firepad-userlist.js"></script>
+  <link rel="stylesheet" href="/oldsite/static/firepad-userlist.css" />
+
 </head>
 <body>
+
   <nav class="fixed-top navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="/#">Ryan Au</a>
+    <a class="navbar-brand" href="/#">Ryan Au's Demos - Burning Notes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapsed" aria-controls="navbarCollapsed" aria-expanded="false" aria-label="Toggle navigation">
       <span class="oi oi-menu"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarCollapsed">
       <ul class="navbar-nav navbar-right">
-        <li class="nav-item active">
-          <a class="nav-link" id="SignIn"></a>
-        </li>
-        <!--<li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
-        </li>
         <li class="nav-item">
-          <a class="nav-link" href="/cv">CV</a>
+          <a class="nav-link firebase-signed-out" id="FirebaseSignIn"></a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="/blog">Blog</a>
-        </li>-->
+        <li class="nav-item firebase-signed-in">
+          <a class="nav-link" id="FirebaseSignOut"></a>
+        </li>
+        <li class="nav-item firebase-signed-in">
+          <a class="">
+            <img id="FirebaseProfilePic"/>
+            <p id="FirebaseUsername"></p>
+          </a>
+        </li> 
       </ul>
     </div>
   </nav>
@@ -43,18 +67,30 @@
   </div><!-- div.container -->
 
 <style>
-#SignIn{
+.firebase-signed-in , .firebase-signed-out {
+  /* display:none; */
+}
+
+#FirebaseSignIn{
   background-image: url("/img/google-sign-in/btn_google_signin_dark_normal_web.png");
   background-size: 191px;
   width:191px;
   height:46px;
 }
-#SignIn:hover{
+#FirebaseSignIn:hover{
   /* background-image: url("/img/google-sign-in/btn_google_signin_dark_focus_web.png"); */
   background-color: grey;
 }
+#FirebaseSignOut {
 
+}
+#FirebaseSignOut:hover {
+
+}
 </style>
+<script>
+</script>
+  <script src="/js/burning-notes.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
