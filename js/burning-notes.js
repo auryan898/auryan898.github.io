@@ -1,5 +1,6 @@
 // For the main layout
 document.getElementById('FirebaseSignIn').addEventListener("click",signIn);
+document.getElementById('FirebaseSignOut').addEventListener("click",signOut);
 
 function addLoadEvent(func) {
   var oldonload = window.onload;
@@ -165,10 +166,13 @@ firebase.auth().onAuthStateChanged(function(user) {
     var uid = user.uid;
     var providerData = user.providerData;
 
-    $(".firebase-signed-in").css("display", "block");
+    document.getElementById("FirebaseUsername").textContent = displayName;
+    document.getElementById("FirebaseProfilePic").src = photoURL;
+
+    $(".firebase-signed-in").css("visibility", "visible");
     $(".firebase-signed-out").css("display", "none");
   } else {
-    $(".firebase-signed-in").css("display", "none");
+    $(".firebase-signed-in").css("visibility", "hidden");
     $(".firebase-signed-out").css("display", "block");
     // User is signed out.
     // ...
