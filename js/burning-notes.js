@@ -104,8 +104,8 @@ var initializeFirepad_loadVersion = function (firepad,path,notepad_name,load_lis
 
   var updateCheckpointList = function(data){
     data.sort(function(a,b){ 
-      var x = a.split("_")[a.length-1], y = b.split("_")[b.length-1]
-      return ( ( x == y ) ? 0 : ( ( x > y ) ? 1 : -1 ) ) });
+      var x = a.split("_").pop(), y = b.split("_").pop()
+      return ( ( x == y ) ? 0 : ( ( x < y ) ? 1 : -1 ) ) });
     load_list.innerHTML = "";
     for (item in data){
       load_list.innerHTML += (`<div class="input-group">
