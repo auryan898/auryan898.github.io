@@ -15,7 +15,7 @@
               <div class="card-body"  href="{{post.url}}" target="_blank">
                 <img class="img-fluid border" src="{{post.image-link}}"/>
                 <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text text-wrap">{{ post.content | truncate: 100 }}</p>
+                <p class="card-text text-wrap">{{ post.content | strip_html | truncate: 100 }}</p>
               </div>
             </a>
           </div>
