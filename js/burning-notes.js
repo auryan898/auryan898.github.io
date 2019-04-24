@@ -1,3 +1,4 @@
+
 // For the main layout
 document.getElementById('FirebaseSignIn').addEventListener("click",signIn);
 document.getElementById('FirebaseSignOut').addEventListener("click",signOut);
@@ -25,25 +26,39 @@ var config = {
 };
 // Initialize Firebase.
 var app = firebase.initializeApp(config);
-
+var firepad = null;
+var codeMirror = null;
+var firepadUserList = null;
 // Initializing individual Firepads
-function initializeFirepad(firepadDiv, path){
-  // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
-  var userId = Math.floor(Math.random() * 9999999999).toString();
+function initializeFirepad(firepadDiv, path, userId = null, displayName = null){
+  // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).  
+  var userId = userId || Math.floor(Math.random() * 9999999999).toString();
   var firepadRef = firebase.database().ref(path);
-  var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
+  codeMirror = CodeMirror(firepadDiv, { 
+    lineWrapping: false , lineNumbers: true , 
+    mode: 'python'
+  });
 
   firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
     { richTextToolbar: true, richTextShortcuts: true, userId: userId});
 
   //// Create FirepadUserList (with our desired userId).
-  var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-    document.getElementById('userlist'), userId);
+  firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
+    document.getElementById('userlist'), userId, displayName);
   
+  firebase.auth().onAuthStateChanged(function(user){
+    if (user){
+      // firepad.setUserId(user.uid);
+      // $("input.firepad-userlist-name-input").val(user.displayName).trigger('change');
+      // console.log("Firepad: User Logged In")
+    } else {
+      // console.log("no user",user);
+    }
+  })
   return firepad;
 }
 
-var initializeFirepad_clear = function(clear_button){
+function initializeFirepad_clear(path,clear_button){
   clear_button.addEventListener("click", 
     function() {
       var text = firepad.getHtml();
@@ -54,7 +69,7 @@ var initializeFirepad_clear = function(clear_button){
     });
 }
 
-var initializeFirepad_download = function (download_button,download_textbox,download_ext) {
+function initializeFirepad_download (download_button,download_textbox,download_ext) {
   var textFile = null
   var makeTextFile = function (text) {
     var data = new Blob([text], {type: 'text/plain'});
@@ -83,38 +98,44 @@ var initializeFirepad_download = function (download_button,download_textbox,down
   }, false);
 };
 
-var initializeFirepad_saveVersion = function (firepad,path,notepad_name,save_button,save_name) {
+function initializeFirepad_saveVersion (firepad,path,notepad_name,save_button,save_name) {
   save_button.addEventListener('click', function () {
     var utcDate = new Date().toISOString();
     var filename = save_name.value +"_"+ notepad_name +"_" + utcDate + ".html";
     var blob = new Blob([firepad.getHtml()], {type: 'text/plain'});;
-    var locationRef = firebase.database().ref(path+"/versions");
+    var locationRef = firebase.database().ref(path).child("versions");
     var storageRef = firebase.storage().ref().child("notepad_versions/"+filename);
     storageRef.put(blob).then(function(snapshot){
       var data = {};
-      data[locationRef.push().key] = filename;
+      data[locationRef.push().key] = {filename : filename, uid: firebase.auth().currentUser.uid};
       locationRef.update(data);
       console.log("Successfully saved version "+filename);
     });
   }, false);
 };
 
-var initializeFirepad_loadVersion = function (firepad,path,notepad_name,load_list,load_button) {
-  var locationRef = firebase.database().ref(path+"/versions");
+function initializeFirepad_loadVersion (firepad,path,notepad_name,load_list,load_button) {
+  var locationRef = firebase.database().ref(path).child("versions");
 
   var updateCheckpointList = function(data){
-    data.sort(function(a,b){ 
+    var datalist = []
+    for (var version in data){
+      datalist.push(data[version]['filename']);
+      console.log(data[version]['filename']);
+
+    }
+    datalist.sort(function(a,b){ 
       var x = a.split("_").pop(), y = b.split("_").pop()
       return ( ( x == y ) ? 0 : ( ( x < y ) ? 1 : -1 ) ) });
     load_list.innerHTML = "";
-    for (item in data){
+    for (item in datalist){
       load_list.innerHTML += (`<div class="input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">
-                <input type="radio" name="loadList" value="${data[item]}">
+                <input type="radio" name="loadList" value="${datalist[item]}">
               </div>
             </div>
-            <p class="form-control text-truncate">${data[item]}</p>
+            <p class="form-control text-truncate">${datalist[item]}</p>
           </div>`);
     }
   }
@@ -126,7 +147,7 @@ var initializeFirepad_loadVersion = function (firepad,path,notepad_name,load_lis
   load_button.addEventListener('click', function () {
     var utcDate = new Date().toISOString();
     var filename = $("input[name='loadList']:checked").val();
-    var storageRef = firebase.storage().ref().child("notepad_versions/"+filename);
+    var storageRef = firebase.storage().ref("notepad_versions/").child(filename);
 
     storageRef.getDownloadURL().then(function(url) {
       // `url` is the download URL for the html file
@@ -171,11 +192,14 @@ firebase.auth().onAuthStateChanged(function(user) {
 
     $(".firebase-signed-in").css("visibility", "visible");
     $(".firebase-signed-out").css("display", "none");
+    $("#checkpointSaveButton").removeClass("disabled");
+    $("#checkpointLoadButton").removeClass("disabled");
   } else {
     $(".firebase-signed-in").css("visibility", "hidden");
     $(".firebase-signed-out").css("display", "block");
     // User is signed out.
     // ...
+    document.location.reload();
   }
 });
 
@@ -186,6 +210,7 @@ function signIn(){
     // The signed-in user info.
     var user = result.user;
     // ...
+    document.location.reload();
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;

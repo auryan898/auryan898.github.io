@@ -102,9 +102,9 @@
         Version History
       </button>
       <div class="dropdown-menu" aria-labelledby="versioningDropdown">
-        <a class="dropdown-item" href="#checkpointSave" data-toggle="modal">Save New Checkpoint</a>
-        <a class="dropdown-item" href="#checkpointLoad" data-toggle="modal">Load Checkpoint</a>
-        <button class="dropdown-item" id="clearNotepadHistory">Clear History Cache</button>
+        <a class="dropdown-item disabled" id="checkpointSaveButton" href="#checkpointSave" data-toggle="modal">Save New Checkpoint</a>
+        <a class="dropdown-item disabled" id="checkpointLoadButton" href="#checkpointLoad" data-toggle="modal">Load Checkpoint</a>
+        <a class="dropdown-item" id="clearNotepadHistory">Clear History Cache</a>
       </div>
     </div>
   </span>
@@ -116,16 +116,16 @@
 
   <script>
     document.body.onload = (function(){
-
+      
       var notepad_name = "main-0001";
       var path = '/notepads/'+notepad_name;
-      var firepad = null;
-      
+      // var firepad = null;
+
       var firepad_div = document.getElementById('firepad');
-      firepad = initializeFirepad(firepad_div, path);
+      initializeFirepad(firepad_div, path);
 
       var clear_button = document.getElementById("clearNotepadHistory");
-      initializeFirepad_clear(clear_button);
+      initializeFirepad_clear(path,clear_button);
 
       var download_button = document.getElementById('create');
       var download_textbox = document.getElementById('textbox');
