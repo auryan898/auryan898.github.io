@@ -1,6 +1,6 @@
 ---
 layout: workpost
-title: "Minervaclient: Course Management API"
+title: "Minervaclient: Course Registration API"
 date: 2019-04-21
 image-link: '/img/work-minervaclient.png'
 link: https://github.com/minervaclient/minervaclient
