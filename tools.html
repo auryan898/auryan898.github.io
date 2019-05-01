@@ -50,7 +50,7 @@
   <input type="number" id="conversion-tax" value="0.15"/>
   <span  id="conversion-tool">
     <p>The Canadian cost is {{ item_price }}. The exchange rate right now is {{ cad_to_us }} and tax is {{ item_tax }}. </p>
-    <p>The US cost is {{ us_cost }}, the cash back is {{ cash_back }}, and the adjusted conversion rate is {{ adjusted_change_rate }} </p>
+    <p>The US cost is {{ Math.trunc(us_cost*1000)/1000.0 }}, the cash back is {{ Math.trunc(cash_back*1000)/1000.0 }}, and the adjusted conversion rate is {{ Math.trunc(adjusted_change_rate*1000)/1000.0 }} </p>
   </span>
   
   
