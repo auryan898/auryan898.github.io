@@ -35,11 +35,17 @@
         databaseURL: "https://burning-note.firebaseio.com",
 
       };
+      config = {
+        apiKey: "AIzaSyCBv2ZbitECQn1n3FPCpRhV15yy8-L3vwY",
+        authDomain: "burning-notes-code-sharing.firebaseapp.com",
+        databaseURL: "https://burning-notes-code-sharing.firebaseio.com",
+        storageBucket: "gs://burning-notes-code-sharing.appspot.com"
+      };
       firebase.initializeApp(config);
       // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).
       var userId = Math.floor(Math.random() * 9999999999).toString();
       var firepadDiv = document.getElementById('firepad');
-      var firepadRef = firebase.database().ref();
+      var firepadRef = firebase.database().ref('/notepads/main-0002');
       var codeMirror = CodeMirror(firepadDiv, { lineWrapping: true , lineNumbers: true , });
 
       var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
