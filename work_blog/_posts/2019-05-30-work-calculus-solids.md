@@ -11,7 +11,8 @@ This terrible looking app is a quickly put-together tool for teachers and studen
 
 [Link to the github project](https://github.com/auryan898/calculus-solids)  
 [Link to the repl.it project](https://repl.it/@RyanAu/Calculus-Solids2)  
-[Link to the repl.it run console](https://calculus-solids2--ryanau.repl.run/)  
+[Link to the repl.it run console](https://calculus-solids2--ryanau.repl.run/)
+[Link to the Live Demo](https://calculus-solids2--ryanau.repl.co/)
 
 Have fun.
 
@@ -28,6 +29,7 @@ A simple example to run uses "solid of revolution"
 
 functions take the form of any math expression based in Python
 
+[Link to the Live Demo](https://calculus-solids2--ryanau.repl.co/)
 <iframe src="https://calculus-solids2--ryanau.repl.co/"></iframe>
 
 <style>
