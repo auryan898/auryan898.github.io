@@ -25,12 +25,13 @@ A simple example to run uses "solid of revolution"
 - lower function: 0
 - upper function: math.sqrt(9-x**2)
 
-functions take the form of any math expression based in Python
+**functions take the form of [any math expression based in Python](https://en.wikibooks.org/wiki/Python_Programming/Basic_Math)**
 
 [Link to the Live Demo](https://calculus-solids2--ryanau.repl.co/)  
 
-<a href="https://raw.githubusercontent.com/auryan898/calculus-solids/master/runserver.py" download="Calculus Solids.py">Install it Locally  (Recommended)</a>  
-<a href="https://raw.githubusercontent.com/auryan898/calculus-solids/master/updateserver.py" download="Calculus Solids (Upgrade).py">Script to Install Updates</a>
+*Right click and choose "Save Link as..." to download:*    
+<a target="_blank" href="https://raw.githubusercontent.com/auryan898/calculus-solids/master/runserver.py" download="Calculus Solids.py">Install it Locally (Recommended)</a>  
+<a target="_blank" href="https://raw.githubusercontent.com/auryan898/calculus-solids/master/updateserver.py" download="Calculus Solids (Upgrade).py">Script to Install Updates</a>
 
 <iframe src="https://calculus-solids2--ryanau.repl.co/"></iframe>
 
