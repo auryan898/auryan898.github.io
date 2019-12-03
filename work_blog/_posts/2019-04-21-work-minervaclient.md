@@ -13,7 +13,7 @@ McGill University's course registration website, Minerva, lacks certain function
 
 
 <hr>
-Here is a working demo of Minervaclient as a command shell.  A quick example to run is `search -term FALL2019 Math-133 --lecture-only`.
+Here is a working demo of Minervaclient as a command shell.  A quick example to run is `search --term FALL2019 Math-133 --lecture-only`.
 
 <iframe src="https://minervaclientdemo.ryanau.repl.run/"></iframe>
 
