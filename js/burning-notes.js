@@ -91,7 +91,7 @@ function initializeFirepad_download (download_button,download_textbox,download_e
     var defaultString = "burning_notes_file_" + utcDate;
 
     // Download the file
-    var link = document.create("a");
+    var link = document.createElement("a");
     link.download = (download_textbox.value == '' ? defaultString : download_textbox.value ) + download_ext.value;
     link.href = makeTextFile(firepad.getText());
     link.click();
