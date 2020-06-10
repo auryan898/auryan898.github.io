@@ -115,30 +115,43 @@
   </div>
 
   <script>
+    
     document.body.onload = (function(){
-      
       var notepad_name = "main-0001";
       var path = '/notepads/'+notepad_name;
+
+      const burningNotes = new BurningNotes(config);
+
+      document.getElementById('FirebaseSignIn').addEventListener("click", function() {burningNotes.signIn();});
+      document.getElementById('FirebaseSignOut').addEventListener("click",function() {burningNotes.signOut();});
+      
+      burningNotes.setFirepadRef(path);
+      burningNotes.initCodeMirror('firepad');
+      burningNotes.initFirepad('userlist');
+      burningNotes.initClearTextButton('clearNotepadHistory');
+      burningNotes.initDownloadFileButton('create','textbox','downloadExtension');
+      burningNotes.initSaveTextButton(notepad_name, 'saveCheckpointButton','saveCheckpointName')
+      burningNotes.initLoadTextButton('loadList','loadCheckpointButton');
       // var firepad = null;
 
-      var firepad_div = document.getElementById('firepad');
-      initializeFirepad(firepad_div, path);
+      // var firepad_div = document.getElementById('firepad');
+      // initializeFirepad(firepad_div, path);
 
-      var clear_button = document.getElementById("clearNotepadHistory");
-      initializeFirepad_clear(path,clear_button);
+      // var clear_button = document.getElementById("clearNotepadHistory");
+      // initializeFirepad_clear(path,clear_button);
 
-      var download_button = document.getElementById('create');
-      var download_textbox = document.getElementById('textbox');
-      var download_ext = document.getElementById('downloadExtension');
-      initializeFirepad_download(download_button,download_textbox,download_ext);
+      // var download_button = document.getElementById('create');
+      // var download_textbox = document.getElementById('textbox');
+      // var download_ext = document.getElementById('downloadExtension');
+      // initializeFirepad_download(download_button,download_textbox,download_ext);
 
-      var save_button = document.getElementById("saveCheckpointButton");
-      var save_name = document.getElementById("saveCheckpointName");
-      initializeFirepad_saveVersion(firepad,path,notepad_name,save_button,save_name);
+      // var save_button = document.getElementById("saveCheckpointButton");
+      // var save_name = document.getElementById("saveCheckpointName");
+      // initializeFirepad_saveVersion(firepad,path,notepad_name,save_button,save_name);
 
-      var load_list = document.getElementById('loadList');
-      var load_button = document.getElementById("loadCheckpointButton");
-      initializeFirepad_loadVersion(firepad,path,notepad_name,load_list,load_button);
+      // var load_list = document.getElementById('loadList');
+      // var load_button = document.getElementById("loadCheckpointButton");
+      // initializeFirepad_loadVersion(firepad,path,notepad_name,load_list,load_button);
 
       
     });
