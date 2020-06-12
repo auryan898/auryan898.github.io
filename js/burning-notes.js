@@ -1,7 +1,4 @@
-
 // For the main layout
-
-
 function addLoadEvent(func) {
   var oldonload = window.onload;
   if (typeof window.onload != 'function') {
@@ -20,219 +17,10 @@ function getAsElement(element) {
   return ("string" == typeof element) ? document.getElementById(element) : element;
 }
 
-// TODO: replace with your Firebase project configuration.
-var config = {
-  apiKey: "AIzaSyCBv2ZbitECQn1n3FPCpRhV15yy8-L3vwY",
-  authDomain: "burning-notes-code-sharing.firebaseapp.com",
-  databaseURL: "https://burning-notes-code-sharing.firebaseio.com",
-  storageBucket: "gs://burning-notes-code-sharing.appspot.com"
-};
-
-/*
-// Initialize Firebase.
-var app = firebase.initializeApp(config);
-var firepad = null;
-var firepadRef = null;
-var codeMirror = null;
-var firepadUserList = null;
-// Initializing individual Firepads
-function initializeFirepad(firepadDiv, path, userId = null, displayName = null){
-  // Create a random ID to use as our user ID (we must give this to firepad and FirepadUserList).  
-  var userId = userId || Math.floor(Math.random() * 9999999999).toString();
-  firepadRef = app.database().ref(path);
-  codeMirror = CodeMirror(firepadDiv, { 
-    lineWrapping: false, lineNumbers: true, 
-    mode: 'python'
-  });
-
-  firepad = Firepad.fromCodeMirror(firepadRef, codeMirror,
-    { richTextToolbar: true, richTextShortcuts: true, userId: userId});
-
-  //// Create FirepadUserList (with our desired userId).
-  firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-    document.getElementById('userlist'), userId, displayName);
-  
-  app.auth().onAuthStateChanged(function(user){
-    if (user){
-      // firepad.setUserId(user.uid);
-      // $("input.firepad-userlist-name-input").val(user.displayName).trigger('change');
-      // console.log("Firepad: User Logged In")
-    } else {
-      // console.log("no user",user);
-    }
-  })
-  return firepad;
+function getJSONObject(path) {
+  return fetch(path).then(function(resp){return resp.json()}).then(function(json){return json});
 }
 
-function initializeFirepad_clear(path,clear_button){
-  clear_button.addEventListener("click", 
-    function() {
-      var text = firepad.getHtml();
-      // console.log('started clearing action');
-      firepadRef.child('history').set({});
-      firepad.setText("");
-      // console.log('completed clearing action (2)');
-    });
-}
-
-function initializeFirepad_download (download_button,download_textbox,download_ext) {
-  var textFile = null
-  var makeTextFile = function (text) {
-    var data = new Blob([text], {type: 'text/plain'});
-
-    // If we are replacing a previously generated file we need to
-    // manually revoke the object URL to avoid memory leaks.
-    if (textFile !== null) {
-      window.URL.revokeObjectURL(textFile);
-    }
-
-    textFile = window.URL.createObjectURL(data);
-
-    return textFile;
-  };
-
-  download_button.addEventListener('click', function () {
-    var dt = new Date();
-    var utcDate = dt.toISOString();
-    var defaultString = "burning_notes_file_" + utcDate;
-
-    // Download the file
-    var link = document.createElement("a");
-    link.download = (download_textbox.value == '' ? defaultString : download_textbox.value ) + download_ext.value;
-    link.href = makeTextFile(firepad.getText());
-    link.click();
-  }, false);
-};
-
-function initializeFirepad_saveVersion (firepad,path,notepad_name,save_button,save_name) {
-  save_button.addEventListener('click', function () {
-    var utcDate = new Date().toISOString();
-    var filename = save_name.value +"_"+ notepad_name +"_" + utcDate + ".html";
-    var blob = new Blob([firepad.getHtml()], {type: 'text/plain'});;
-    var locationRef = firepadRef.child("versions");
-    var storageRef = app.storage().ref().child("notepad_versions/"+filename);
-    storageRef.put(blob).then(function(snapshot){
-      var data = {};
-      data[locationRef.push().key] = {filename : filename, uid: app.auth().currentUser.uid};
-      locationRef.update(data);
-      console.log("Successfully saved version "+filename);
-    });
-  }, false);
-};
-
-function initializeFirepad_loadVersion (firepad,path,notepad_name,load_list,load_button) {
-  var locationRef = firepadRef.child("versions");
-
-  var updateCheckpointList = function(data){
-    var datalist = []
-    for (var version in data){
-      datalist.push(data[version]['filename']);
-      console.log(data[version]['filename']);
-
-    }
-    datalist.sort(function(a,b){ 
-      var x = a.split("_").pop(), y = b.split("_").pop()
-      return ( ( x == y ) ? 0 : ( ( x < y ) ? 1 : -1 ) ) });
-    load_list.innerHTML = "";
-    for (item in datalist){
-      load_list.innerHTML += (`<div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input type="radio" name="loadList" value="${datalist[item]}">
-              </div>
-            </div>
-            <p class="form-control text-truncate">${datalist[item]}</p>
-          </div>`);
-    }
-  }
-  locationRef.on("value",function(snapshot){
-    var data = snapshot.val();
-    updateCheckpointList(Object.values(data));
-  });
-  
-  load_button.addEventListener('click', function () {
-    var utcDate = new Date().toISOString();
-    var filename = $("input[name='loadList']:checked").val();
-    var storageRef = app.storage().ref("notepad_versions/").child(filename);
-
-    storageRef.getDownloadURL().then(function(url) {
-      // `url` is the download URL for the html file
-
-      // This can be downloaded directly:
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = function(event) {
-        var blob = xhr.response;
-        var reader = new FileReader();
-        reader.addEventListener("loadend", function() {
-          // reader.result contains the contents of blob as a string text
-          firepad.setHtml(reader.result);
-          console.log("Successfully loaded version "+filename);
-        });
-        reader.readAsText(blob);
-      };
-      xhr.open('GET', url);
-      xhr.send();
-    }).catch(function(error) {
-      // Handle any errors
-    });
-  }, false);
-};
-
-// AUTHENTICATION
-var provider = new firebase.auth.GoogleAuthProvider();
-
-app.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    var displayName = user.displayName;
-    var email = user.email;
-    var emailVerified = user.emailVerified;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-
-    document.getElementById("FirebaseUsername").textContent = displayName;
-    document.getElementById("FirebaseProfilePic").src = photoURL;
-
-    $(".firebase-signed-in").css("visibility", "visible");
-    $(".firebase-signed-out").css("display", "none");
-    $("#checkpointSaveButton").removeClass("disabled");
-    $("#checkpointLoadButton").removeClass("disabled");
-  } else {
-    $(".firebase-signed-in").css("visibility", "hidden");
-    $(".firebase-signed-out").css("display", "block");
-    // User is signed out.
-    // ...
-    document.location.reload();
-  }
-});
-
-function signIn(){
-  app.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
-    // ...
-    document.location.reload();
-  }).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
-}
-function signOut(){
-  
-}
-// END AUTHENTICATION
-*/
 class BurningNotes {
   constructor(config) {
     this.app = firebase.initializeApp(config);
@@ -241,9 +29,11 @@ class BurningNotes {
     this.codeMirror = null;
     this.firepadUserList = null;
     this.provider = new firebase.auth.GoogleAuthProvider();
+    this.initAuthorization();
   }
 
   initAuthorization() {
+    
     this.app.auth().onAuthStateChanged(function(user) {
       if (user) {
         // User is signed in.
@@ -267,7 +57,7 @@ class BurningNotes {
         $(".firebase-signed-out").css("display", "block");
         // User is signed out.
         // ...
-        document.location.reload();
+        // document.location.reload();
       }
     });
   }
@@ -300,11 +90,11 @@ class BurningNotes {
     });
   }
 
-  setFirepadRef(path) {
-    if (path == null){
+  setFirepadRef(notepadName) {
+    if (notepadName == null){
       return;
     }
-    this.firepadRef = this.app.database().ref(path);
+    this.firepadRef = this.app.database().ref('/notepads/'+notepadName);
   }
   
   initCodeMirror(firepadContainer) {
@@ -315,8 +105,11 @@ class BurningNotes {
     });
   }
 
-  initFirepad(userlistId, path = null, userId = null, displayName = null) {
-    this.setFirepadRef(path);
+  initFirepad(firepadContainer, userlistId, notepadName = null, userId = null, displayName = null) {
+    this.disposeFirepad();
+
+    this.initCodeMirror(firepadContainer);
+    this.setFirepadRef(notepadName);
     var userId = userId || Math.floor(Math.random() * 9999999999).toString();
     this.firepad = Firepad.fromCodeMirror(this.firepadRef, this.codeMirror,
       { richTextToolbar: true, richTextShortcuts: true, userId: userId });
@@ -333,24 +126,33 @@ class BurningNotes {
         // console.log("no user",user);
       }
     });
-    return firepad;
   }
 
   disposeFirepad() {
-    this.firepad.dispose();
-    this.firepadUserList.dispose();
+    if (this.firepad != null)
+      this.firepad.dispose();
+    if (this.firepadUserList != null)
+      this.firepadUserList.dispose();
+    if (this.codeMirror != null)
+      this.codeMirror.getWrapperElement().parentElement.removeChild(this.codeMirror.getWrapperElement())
   }
 
   initClearTextButton(clearButton) {
     let _clearButton = getAsElement(clearButton);
-    _clearButton.addEventListener("click", 
-    function() {
-      var text = this.firepad.getHtml();
-      // console.log('started clearing action');
-      this.firepadRef.child('history').set({});
-      this.firepad.setText("");
-      // console.log('completed clearing action (2)');
-    });
+    let obj = this;
+    _clearButton.addEventListener("click",
+    function(){obj.clearText();} 
+    );
+  }
+
+  clearText() {
+    var text = this.firepad.getHtml();
+    // console.log('started clearing action');
+    this.firepad.setText("");
+    this.firepadRef.child('checkpoint').set({});
+    this.firepadRef.child('history').set({});
+    this.firepad.setText(" ");
+    // console.log('completed clearing action (2)');
   }
 
   initDownloadFileButton(downloadButton, textbox, extension) {
@@ -372,7 +174,8 @@ class BurningNotes {
   var _downloadButton = getAsElement(downloadButton);
   var _textbox = getAsElement(textbox);
   var _extension = getAsElement(extension);
-  _downloadButton.addEventListener('click', function () {
+  var obj = this;
+  _downloadButton.addEventListener('click', function() {
     var dt = new Date();
     var utcDate = dt.toISOString();
     var defaultString = "burning_notes_file_" + utcDate;
@@ -380,7 +183,7 @@ class BurningNotes {
     // Download the file
     var link = document.createElement("a");
     link.download = (_textbox.value == '' ? defaultString : _textbox.value ) + _extension.value;
-    link.href = makeTextFile(this.firepad.getText());
+    link.href = makeTextFile(obj.firepad.getText());
     link.click();
   }, false);
   }
@@ -388,8 +191,9 @@ class BurningNotes {
   initLoadTextButton(loadList,loadButton) {
     var _loadList = getAsElement(loadList);
     var _loadButton = getAsElement(loadButton);
+    var obj = this;
 
-    var locationRef = this.firepadRef.child("versions");
+    var locationRef = this.app.database().ref('/notepad-versions');
   
     var updateCheckpointList = function(data){
       var datalist = []
@@ -398,9 +202,10 @@ class BurningNotes {
         console.log(data[version]['filename']);
   
       }
-      datalist.sort(function(a,b){ 
-        var x = a.split("_").pop(), y = b.split("_").pop()
-        return ( ( x == y ) ? 0 : ( ( x < y ) ? 1 : -1 ) ) });
+      // datalist.sort(function(a,b){ 
+      //   var x = a.split("_").pop(), y = b.split("_").pop()
+      //   return ( ( x == y ) ? 0 : ( ( x < y ) ? 1 : -1 ) ) });
+      datalist.sort();
       _loadList.innerHTML = "";
       for (let item in datalist){
         _loadList.innerHTML += (`<div class="input-group">
@@ -415,13 +220,14 @@ class BurningNotes {
     }
     locationRef.on("value",function(snapshot){
       var data = snapshot.val();
-      updateCheckpointList(Object.values(data));
+      if (data != null)
+        updateCheckpointList(Object.values(data));
     });
     
     _loadButton.addEventListener('click', function () {
       var utcDate = new Date().toISOString();
       var filename = $("input[name='loadList']:checked").val();
-      var storageRef = this.app.storage().ref("notepad_versions/").child(filename);
+      var storageRef = obj.app.storage().ref("notepad_versions/").child(filename);
   
       storageRef.getDownloadURL().then(function(url) {
         // `url` is the download URL for the html file
@@ -434,7 +240,7 @@ class BurningNotes {
           var reader = new FileReader();
           reader.addEventListener("loadend", function() {
             // reader.result contains the contents of blob as a string text
-            this.firepad.setHtml(reader.result);
+            obj.firepad.setHtml(reader.result);
             console.log("Successfully loaded version "+filename);
           });
           reader.readAsText(blob);
@@ -450,16 +256,17 @@ class BurningNotes {
   initSaveTextButton(notepadName,saveButton,saveNameBox) {
     let _saveNameBox = getAsElement(saveNameBox);
     let _saveButton = getAsElement(saveButton);
-    
+    let obj = this;
+
     _saveButton.addEventListener('click', function () {
       var utcDate = new Date().toISOString();
       var filename = _saveNameBox.value +"_"+ notepadName +"_" + utcDate + ".html";
-      var blob = new Blob([this.firepad.getHtml()], {type: 'text/plain'});
-      var locationRef = this.firepadRef.child("versions");
-      var storageRef = this.app.storage().ref().child("notepad_versions/"+filename);
+      var blob = new Blob([obj.firepad.getHtml()], {type: 'text/plain'});
+      var locationRef = obj.app.database().ref('/notepad-versions');
+      var storageRef = obj.app.storage().ref().child("notepad_versions/"+filename);
       storageRef.put(blob).then(function(snapshot){
         var data = {};
-        data[locationRef.push().key] = {filename : filename, uid: this.app.auth().currentUser.uid};
+        data[locationRef.push().key] = {filename : filename, uid: obj.app.auth().currentUser.uid};
         locationRef.update(data);
         console.log("Successfully saved version "+filename);
       });

@@ -8,17 +8,18 @@
   <span class="card">
     <div class="card-body">
       <h3 class="card-title"><em>Burning Notes: Shared Text/Coding Editor</em></h3>
-      <p class="card-subtitle text-muted">Based on <a href="https://www.firepad.io" target="_blank">Firepad</a></p>
+      <p class="card-subtitle text-muted mb-3"><em>Based on <a href="https://www.firepad.io" target="_blank">Firepad</a></em></p>
       <p class="card-text">
-        This is a "shared" editor, basically Google Docs, but writing code looks nice here.  
-        Write anything you want into this editor, highlight, color, and change the font.  
-        You can write code, text, maybe add images, whatever helps.  
+        This is a "shared" editor, basically Google Docs, but writing code looks nice here. Any others on this same editor will see your writing.
         <br/>
-        <em class="text-muted">This application is for educational/recreational purposes only (I can't think of any other good uses)</em>
+        <br/>
+        Write anything you want into this editor, highlight, color, and change the font. 
+        <br/>
+        <em class="text-muted">This application is mainly for educational/recreational purposes (I can't think of any other good uses)</em>
         <hr/>
-        Use the <b><u>DOWNLOAD AS FILE</u></b> button to download a "plaintext" version of what you see here.  
-        Basically it's something that you can run as a program on your computer/device.  You might 
-        notice weird things and characters show up if you try to copy-paste things...<b><u>copy from here at your own risk</u></b>
+        <b>Note: </b>Use the <b><u>DOWNLOAD TEXT AS FILE</u></b> button to download a "plaintext" version of what you see here.  
+        <br/>
+        We do not recommend copy-pasting directly from this editor, as strange characters may appear.
       </p>
     </div>
   </span>
@@ -92,22 +93,41 @@
         </div>
       </div>
     </div>
-  <span class="" style="display:inline-flex" role="group" aria-label="Basic example">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileCreation">
-      Download as File
-    </button>
-    <div class="dropdown">
-      <button class="btn btn-success dropdown-toggle" type="button" id="versioningDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Version History
+  <span class=''>
+    <span class="row flex mx-1" role="group" aria-label="Basic example">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary mr-1" data-toggle="modal" data-target="#fileCreation">
+        Download Text as File
       </button>
-      <div class="dropdown-menu" aria-labelledby="versioningDropdown">
-        <a class="dropdown-item disabled" id="checkpointSaveButton" href="#checkpointSave" data-toggle="modal">Save New Checkpoint</a>
-        <a class="dropdown-item disabled" id="checkpointLoadButton" href="#checkpointLoad" data-toggle="modal">Load Checkpoint</a>
-        <a class="dropdown-item" id="clearNotepadHistory">Clear History Cache</a>
+      <div class="dropdown">
+        <button class="btn btn-success dropdown-toggle mr-1" type="button" id="versioningDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Version History
+        </button>
+        <div class="dropdown-menu" aria-labelledby="versioningDropdown">
+          <a class="dropdown-item disabled" id="checkpointSaveButton" href="#checkpointSave" data-toggle="modal">Save New Checkpoint</a>
+          <a class="dropdown-item disabled" id="checkpointLoadButton" href="#checkpointLoad" data-toggle="modal">Load Checkpoint</a>
+          <a class="dropdown-item" id="clearNotepadHistory">Clear History Cache</a>
+        </div>
       </div>
-    </div>
+    </span>
+    <hr/>
+    <span class="row mt-4 mx-1 flex">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link active" id="selectNotepad1" href='' data-toggle="tab">Editor 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="selectNotepad2" href='' data-toggle="tab">Editor 2</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="selectNotepad3" href='' data-toggle="tab">Editor 3</a>
+        </li>
+      </ul>
+    </span>
+    <hr/>
   </span>
+  
+  
 
   <div id="notepad-container">
     <div id="userlist"></div>
@@ -115,23 +135,44 @@
   </div>
 
   <script>
-    
-    document.body.onload = (function(){
-      var notepad_name = "main-0001";
-      var path = '/notepads/'+notepad_name;
-
-      const burningNotes = new BurningNotes(config);
-
+    // let config = await getJSONObject('js/burning-notes-config-1.json');
+    let config = {
+      "apiKey": "AIzaSyCBv2ZbitECQn1n3FPCpRhV15yy8-L3vwY",
+      "authDomain": "burning-notes-code-sharing.firebaseapp.com",
+      "databaseURL": "https://burning-notes-code-sharing.firebaseio.com",
+      "storageBucket": "gs://burning-notes-code-sharing.appspot.com"
+    }
+    let burningNotes;
+    function setupFirepad(configuration) {
+      burningNotes = new BurningNotes(configuration);
+      
+      
       document.getElementById('FirebaseSignIn').addEventListener("click", function() {burningNotes.signIn();});
       document.getElementById('FirebaseSignOut').addEventListener("click",function() {burningNotes.signOut();});
       
-      burningNotes.setFirepadRef(path);
-      burningNotes.initCodeMirror('firepad');
-      burningNotes.initFirepad('userlist');
+      const setNotepad = function(name) {
+        return function() {
+          burningNotes.setFirepadRef(name);
+          burningNotes.initFirepad('firepad','userlist');
+        };
+      };
+      setNotepad('main-0001')();
+      
       burningNotes.initClearTextButton('clearNotepadHistory');
       burningNotes.initDownloadFileButton('create','textbox','downloadExtension');
-      burningNotes.initSaveTextButton(notepad_name, 'saveCheckpointButton','saveCheckpointName')
+      burningNotes.initSaveTextButton('main', 'saveCheckpointButton','saveCheckpointName')
       burningNotes.initLoadTextButton('loadList','loadCheckpointButton');
+      
+      
+      document.getElementById('selectNotepad1').addEventListener("click",setNotepad('main-0001'));
+      document.getElementById('selectNotepad2').addEventListener("click",setNotepad('main-0002'));
+      document.getElementById('selectNotepad3').addEventListener("click",setNotepad('main-0003'));
+    }
+    document.body.onload = (function(){
+      setupFirepad(config);
+    });
+
+      
       // var firepad = null;
 
       // var firepad_div = document.getElementById('firepad');
@@ -154,7 +195,6 @@
       // initializeFirepad_loadVersion(firepad,path,notepad_name,load_list,load_button);
 
       
-    });
   </script>
   <style>
     /* html { height: 100%; } */
