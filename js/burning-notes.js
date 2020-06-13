@@ -198,9 +198,10 @@ class BurningNotes {
     var updateCheckpointList = function(data){
       var datalist = []
       for (var version in data){
-        datalist.push(data[version]['filename']);
-        console.log(data[version]['filename']);
-  
+        var versionName = data[version]['title'] + "_" + data[version]['hash'];
+        var filename = data[version]['filename'];
+        datalist.push({filename:filename, versionName:versionName});
+        console.log(versionName + " -> " + filename);
       }
       // datalist.sort(function(a,b){ 
       //   var x = a.split("_").pop(), y = b.split("_").pop()
@@ -211,10 +212,10 @@ class BurningNotes {
         _loadList.innerHTML += (`<div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">
-                  <input type="radio" name="loadList" value="${datalist[item]}">
+                  <input type="radio" name="loadList" value="${datalist[item].filename}">
                 </div>
               </div>
-              <p class="form-control text-truncate">${datalist[item]}</p>
+              <p class="form-control text-truncate">${datalist[item].versionName}</p>
             </div>`);
       }
     }
@@ -259,14 +260,25 @@ class BurningNotes {
     let obj = this;
 
     _saveButton.addEventListener('click', function () {
-      var utcDate = new Date().toISOString();
-      var filename = _saveNameBox.value +"_"+ notepadName +"_" + utcDate + ".txt";
-      var blob = new Blob([obj.firepad.getText()], {type: 'text/plain'});
+      var textContent = obj.firepad.getText();
+      
+      var date = new Date().toISOString();
+      var hash = CryptoJS.SHA256(textContent).toString().slice(-7);
+      var saveName = _saveNameBox.value;
+      
+      var filename = saveName +"_"+ notepadName +"_" + hash + ".txt";
+      var blob = new Blob([textContent], {type: 'text/plain'});
       var locationRef = obj.app.database().ref('/notepad-versions');
       var storageRef = obj.app.storage().ref().child("notepad_versions/"+filename);
       storageRef.put(blob).then(function(snapshot){
         var data = {};
-        data[locationRef.push().key] = {filename : filename, uid: obj.app.auth().currentUser.uid};
+        data[locationRef.push().key] = {
+          filename : filename,
+          uid: obj.app.auth().currentUser.uid,
+          title: saveName,
+          hash: hash,
+          date: date
+        };
         locationRef.update(data);
         console.log("Successfully saved version "+filename);
       });
