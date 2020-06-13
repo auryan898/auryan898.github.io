@@ -29,7 +29,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="fileCreationLabel">Input File Name To Download</h5>
+          <h5 class="modal-title" id="fileCreationLabel">Download Editor Content as "Plaintext" File</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -45,6 +45,8 @@
             <option>{{e}}</option>
             {% endfor %}
           </select>
+          <br/>
+          <em class="text-muted">Warning: the downloaded file will not include any style formatting (bold, italics, font, colors, etc.)</em>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -57,13 +59,15 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="checkpointLoadLabel">Input Give A Name To New Version</h5>
+          <h5 class="modal-title" id="checkpointLoadLabel">Save Current Editor Content</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <a>Version Name: </a><input id="saveCheckpointName" type="text">
+          <br/>
+          <em class="text-muted">Warning: this action will not preserve tabs or style formatting</em>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -85,6 +89,8 @@
             <form  id="loadList">
               <em>No Versions To Display</em>
             </form>
+            <br/>
+            <em class="text-muted">Warning: this action will not load original tabs or style formatting</em>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

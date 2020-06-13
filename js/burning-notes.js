@@ -141,7 +141,11 @@ class BurningNotes {
     let _clearButton = getAsElement(clearButton);
     let obj = this;
     _clearButton.addEventListener("click",
-    function(){obj.clearText();} 
+    function(){
+      if (confirm("Do you wish to clear the current editor's content?")) {
+        obj.clearText();
+      }
+    } 
     );
   }
 
