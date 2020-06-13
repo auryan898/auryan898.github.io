@@ -240,7 +240,7 @@ class BurningNotes {
           var reader = new FileReader();
           reader.addEventListener("loadend", function() {
             // reader.result contains the contents of blob as a string text
-            obj.firepad.setHtml(reader.result);
+            obj.firepad.setText(reader.result);
             console.log("Successfully loaded version "+filename);
           });
           reader.readAsText(blob);
@@ -260,8 +260,8 @@ class BurningNotes {
 
     _saveButton.addEventListener('click', function () {
       var utcDate = new Date().toISOString();
-      var filename = _saveNameBox.value +"_"+ notepadName +"_" + utcDate + ".html";
-      var blob = new Blob([obj.firepad.getHtml()], {type: 'text/plain'});
+      var filename = _saveNameBox.value +"_"+ notepadName +"_" + utcDate + ".txt";
+      var blob = new Blob([obj.firepad.getText()], {type: 'text/plain'});
       var locationRef = obj.app.database().ref('/notepad-versions');
       var storageRef = obj.app.storage().ref().child("notepad_versions/"+filename);
       storageRef.put(blob).then(function(snapshot){
