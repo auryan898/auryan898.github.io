@@ -35,9 +35,9 @@ codepen_username: CodePen
 # instagram_username: Instagram
 # twitter_username: auryan898
 
-cover_pic_link: https://getbiggies.com/wp-content/uploads/2014/01/WW-MTO120.jpg
+cover_pic_link: ./img/pexels-eberhard-grossgasteiger-1287145.jpg
 # profile_pic_link: https://avatars3.githubusercontent.com/u/15135777?s=460&v=4
-profile_pic_link: https://scontent.fyhu2-1.fna.fbcdn.net/v/t1.0-1/p160x160/48381272_2204752802902482_745363223141679104_n.jpg?_nc_cat=101&_nc_ht=scontent.fyhu2-1.fna&oh=954ce0e4cdbcf02b75fcf660ed0af04c&oe=5D446710
+profile_pic_link: ./img/profile_pic.jpg
 
 # baseurl:  ""
 # url: ""
