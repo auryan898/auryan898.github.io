@@ -7,16 +7,21 @@ link: https://github.com/auryan898/calculus-solids
 iframe: https://calculus-solids2--ryanau.repl.co/
 ---
 
-This terrible looking app is a quickly put-together tool for teachers and students in Calculus classes around the world to visually render solids of known volume into an editable 3D format.  Sites on the internet sometimes serve up an interactive demo of the formulas and fancy animations, but this tool is simple and concise.  It will take the appropriate inputs for your solid, then output basic STL formats, create a 3D plot of the points for you, and it even outputs to OpenJsCAD and OpenSCAD for further extensibility and remixing.  Not only useful for education, but great for those 3D designers that want to use a solid of revolution in their day to day designs.
 
-[Link to the github project (to install locally)](https://github.com/auryan898/calculus-solids)  
-[Link to the repl.it project](https://repl.it/@RyanAu/Calculus-Solids2)  
+This web app is a simple tool to visually render solids of known volume into an editable 3D format. Intended for use by teachers and students in Calculus classes around the world to assist in their studies.  
 
-Have fun.
+Existing sites on the internet sometimes serve up an interactive demo of pre-defined formulas with fancy animations, but this tool is simple and concise. It will take the appropriate inputs for your solid, then output basic STL formats, create a 3D plot of the points for you, and it even outputs to OpenJsCAD and OpenSCAD for further extensibility and remixing.  Not only useful for education, but great for those 3D designers that want to use a solid of revolution in their day to day designs.
+
+<p style="color:red;">NOTE: Live Demo is no longer functional for the time being.</p>
+
+<a href="https://github.com/auryan898/calculus-solids" target="_blank">Link to the github project (to install locally)</a>  
+<a href="https://repl.it/@RyanAu/Calculus-Solids2" target="_blank">Link to the repl.it project</a>  
+
+
 
 
 <hr>
-Here is a working demo of the Calculus Solids interface.  
+Here is a <s>working</s> demo of the Calculus Solids interface.  
 A simple example to run uses "solid of revolution"
 - lower limit: -3
 - upper limit: 3
@@ -25,7 +30,7 @@ A simple example to run uses "solid of revolution"
 - lower function: 0
 - upper function: math.sqrt(9-x**2)
 
-[Link to the Live Demo](https://calculus-solids2--ryanau.repl.co/)  
+~~[Link to the Live Demo](https://calculus-solids2--ryanau.repl.co/)~~  
 
 
 <iframe src="https://calculus-solids2--ryanau.repl.co/"></iframe>
