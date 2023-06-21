@@ -1,0 +1,47 @@
+/* #E27D5F #85CDCA #E8A87C #C38D9E #4BB3A2 #eba0eb */
+
+h1{
+  /* font-family:Impact; */
+}
+
+body {
+  font-family:'Helvetica', 'Arial', 'Sans-Serif';
+  height:100%;
+  width:100%;
+  background-color:#85DCB0;
+  color:white;
+  
+}
+#main {
+  width: 80%;
+  background-color: #85CDCA;
+  padding-top: 50px;
+}
+#main .row:nth-child(even){
+  background-color: rgb(235, 160, 235);
+}
+
+#profile-pic {
+  
+  width: 200px;
+  float: none;
+  position:relative;
+  margin: 0 auto 0 auto;
+}
+#navbar{
+  background-color:black;
+  
+}
+#contact {
+  color:black;
+  padding-bottom: 90px;
+  text-align: center;
+  background-color: #E27D5F;
+}
+.btn.fa {
+  
+  font-size: 40px;
+  color: white;
+  border: 4px solid white;
+  float: none;
+}

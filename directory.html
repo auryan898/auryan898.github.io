@@ -1,0 +1,45 @@
+---
+layout: default
+title: Ryan Au's Not So Secret Directory Page
+---
+<h3>Welcome to the not so secret directory page</h3>
+
+<span class="row">
+    <div class="col-sm-6">
+        <h5>Brainstorm Ideas Pages:</h5>
+        <ul>
+            {% for pick in site.pages %}
+            {% if (pick.tags|join:";") contains "scratchwork" %}
+            <li>
+                <a href="{{ pick.url }}">
+                    {% if pick.title %}
+                    {{ pick.title }}
+                    {% else %}
+                    {{ pick.url }}
+                    {% endif %}
+                </a>
+            </li>
+            {%endif%}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <h5>All Other Pages:</h5>
+        <ul>
+            {% for pick in site.pages %}
+            {% if (pick.tags|join:";") contains "scratchwork" %}
+            {% else %}
+            <li>
+                <a href="{{ pick.url }}">
+                    {% if pick.title %}
+                    {{ pick.title }}
+                    {% else %}
+                    {{ pick.url }}
+                    {% endif %}
+                </a>
+            </li>
+            {%endif%}
+            {% endfor %}
+        </ul>
+    </div>
+</span>

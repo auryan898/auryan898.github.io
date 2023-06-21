@@ -1,0 +1,154 @@
+---
+layout: default
+title: Ryan Au Homepage
+---
+
+<div id="cover-photo" class="img-responsive" >
+  <img src="{{ site.cover_pic_link }}"/>
+  <div>
+  </div>
+</div>
+<div id="profile-content">
+  <img id="profile-photo" class="rounded-circle" src="/img/profile_pic.jpg">
+  <h1 class="text-center border-bottom">Ryan Au</h1>
+  <span class="row">
+    <div class="col-md-4">
+      <div class="card text-left">
+        <div class="card-body">
+          <!-- <h5 class="card-title"></h5> -->
+          <p class="card-text">
+            I'm a Software Engineering major at McGill University. 
+            I use Python, Java, JavaScript, C, PHP, and C#. 
+            I've got interests in App making, Game Development,
+            Robotics, 3D CAD/Printing, Data Analysis, and Website building
+          </p>
+        </div>
+      </div> <!--div.card-->
+    </div>
+    <div class="col-md-4">
+      <div class="card text-justify">
+        <div class="card-body row">
+          <!-- <h5 class="card-title"></h5> -->
+          <p class="col-sm-7 card-text text-md-left text-nowrap">
+            Montreal, QC, Canada<br/>
+            Boston, MA, USA<br/>
+            {% if site.email %}
+              <a class="card-link" href="mailto:{{site.email}}" target="_blank">
+                <!-- <img src="/img/GitHub-Mark-32px.png"/> -->
+                {{site.email}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.email_school %}
+              <a class="card-link" href="mailto:{{site.email_school}}" target="_blank">
+                <!-- <img src="/img/GitHub-Mark-32px.png"/> -->
+                {{site.email_school}}
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.phone_can%}
+              <a class="card-link">CAN:{{site.phone_can}}</a>
+              <br/>
+            {% endif %}
+            {% if site.phone_usa%}
+              <a class="card-link">USA:{{site.phone_usa}}</a>
+              <br/>
+            {% endif %}
+          </p>
+          <p class="col-sm-5 card-text text-md-right text-truncate">
+            {% if site.github_username %}
+              <a class="card-link" href="https://github.com/{{site.github_username}}" target="_blank">
+                <!-- <img src="/img/GitHub-Mark-32px.png"/> -->
+                <span class="fa fa-github social-icon"></span>
+                Github
+              </a>
+              <br/>
+            {% endif %}
+            
+            {% if site.facebook_link %}
+              <a class="card-link" href="{{site.facebook_link}}" target="_blank">
+                <span class="fa fa-facebook social-icon"></span>
+                Facebook
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.linkedin_link %}
+              <a class="card-link" href="{{site.linkedin_link}}" target="_blank">
+                <span class="fa fa-linkedin social-icon"></span>
+                LinkedIn
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.codepen_username %}
+              <a class="card-link" href="https://codepen.io/{{site.codepen_username}}" target="_blank">
+                <span class="fa fa-codepen social-icon"></span>
+                CodePen
+              </a>
+              <br/>
+            {% endif %}
+            {% if site.twitter_username %}
+              <a class="card-link" href="https://twitter.com/{{site.twitter_username}}" target="_blank">
+                <span class="fa fa-twitter social-icon"></span>
+                Twitter
+              </a>
+              <br/>
+            {% endif %}
+          </p>
+        </div>
+      </div> <!--div.card-->
+    </div>
+    <div class="col-md-4">
+        <div class="card text-left">
+          <div class="card-body">
+            <!-- <h5 class="card-title"></h5> -->
+            <p class="card-text">
+              I'm looking for internships, volunteer work, basically any and
+              all experiences I can find. Doesn't even need 
+              to be tech related, but I would love that.
+            </p>
+          </div>
+        </div> <!--div.card-->
+    </div>
+  </span><!--span.row-->
+  <span class="container">
+    {% include home-portfolio.html %}
+  </span><!--span.container-->
+</div>
+<style>
+
+.social-icon {
+  color:black;
+  font-size:32px;
+}
+#profile-content {
+  position: relative;
+  top:-185px;
+}
+#cover-photo img {
+  object-fit: cover;
+  height:300px;
+  position:relative;
+  width:100%;
+  top:0px;
+  z-index:-10;
+  overflow: hidden;
+}
+#profile-photo {
+  position: relative;
+  /* top:-200px; */
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 185px;
+  border: 10px double white;
+  background-color: lightgrey;
+}
+
+@media only screen and (max-width: 600px) {
+  #cover-photo {
+    object-fit: none;
+    height:50%;
+    width:100%;
+  }  
+}
+</style>
