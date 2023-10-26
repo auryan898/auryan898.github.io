@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Slippy Map Conversion Program</title>
+</head>
+
+<body display="inline">
+    <h3>Convert Between Long/Lat and Slippy Map Coordinates</h3>
+    <label for="x-slip">X Coord</label>
+    <input name="x-slip" type="number" min="0" step="1" value="0">
+    <label for="y-slip">Y Coord</label>
+    <input name="y-slip" type="number" min="0" step="1" value="0">
+    <button onclick="clearXY()">Clear</button>
+    <br />
+    <br />
+    <label for="z-slip">Z Depth/Zoom</label>
+    <input name="z-slip" type="number" min="0" max="19" step="1" value="0">
+
+    <br />
+    <br />
+    <hr />
+    <label for="lat-map">Latitude</label>
+    <input name="lat-map" type="number" min="-90" max="90" step="0.0000001">
+    <label for="lon-map">Longitude</label>
+    <input name="lon-map" type="number" min="-180" max="180" step="0.0000001">
+    <button onclick="clearLatLon()">Clear</button>
+    <br />
+    <br />
+
+    <b>
+        <p>Northwest: <a id="corner-nw">n/a</a> and Southeast: <a id="corner-se">n/a</a></p>
+        <p>Directions: <a id="corner-directions">n/a</a></p>
+    </b>
+
+    <br />
+    <br />
+
+    <button onclick="convertSlippyLatLon()">Slippy => Lat/Lon</button>
+    <button onclick="convertLatLonSlippy()">Lat/Lon => Slippy</button>
+
+    <script>
+        let inputLat = document.getElementsByName("lat-map")[0];
+        let inputLon = document.getElementsByName("lon-map")[0];
+        let inputX = document.getElementsByName("x-slip")[0];
+        let inputY = document.getElementsByName("y-slip")[0];
+        let inputZoom = document.getElementsByName("z-slip")[0];
+
+        let cornerNW = document.getElementById("corner-nw");
+        let cornerSE = document.getElementById("corner-se");
+        let cornerDirections = document.getElementById("corner-directions");
+
+        function radians(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+        function degrees(rad) {
+            return rad * (180 / Math.PI);
+        }
+
+        function slippy(lon, lat, n) {
+            let x = lon;
+            let y = Math.asinh(Math.tan(lat));
+
+            x = (1 + (x / Math.PI)) / 2;
+            y = (1 - (y / Math.PI)) / 2;
+
+
+            x = Math.floor(x * n);
+            y = Math.floor(y * n);
+
+            return [x, y];
+        }
+
+        function latlon(x, y, n) {
+            let lon = x / n * 360.0 - 180.0;
+            let lat = degrees(Math.atan(Math.sinh(Math.PI * (1 - 2 * y / n))));
+
+            return [lat, lon];
+        }
+
+
+        function clearLatLon() {
+            inputLat.value = 0;
+            inputLon.value = 0;
+        }
+        function clearXY() {
+            inputX.value = 0;
+            inputY.value = 0;
+        }
+
+        function convertSlippyLatLon() {
+            let n = Math.pow(2, inputZoom.value);
+            let x = inputX.value;
+            let y = inputY.value;
+
+            let coord = latlon(x, y, n);
+
+            inputLon.value = coord[1];
+            inputLat.value = coord[0];
+
+            convertLatLonSlippy();
+        }
+
+        function convertLatLonSlippy() {
+            let lon = radians(inputLon.value);
+            let lat = radians(inputLat.value);
+            let n = Math.pow(2, inputZoom.value);
+
+            let xy = slippy(lon, lat, n);
+
+            inputX.value = xy[0];
+            inputY.value = xy[1];
+
+            let nw = latlon(xy[0], xy[1], n);
+            let se = latlon(xy[0] + 1, xy[1] + 1, n);
+
+            cornerNW.textContent = String(nw);
+            cornerSE.textContent = String(se);
+
+            cornerDirections.textContent = "Link to (" + xy[0] + ", " + xy[1] + ", " + inputZoom.value + ")";
+            cornerDirections.href = "https://www.google.com/maps/dir/" + String(nw) + "/" + String(se);
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</body>
